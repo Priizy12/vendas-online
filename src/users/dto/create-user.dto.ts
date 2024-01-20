@@ -33,7 +33,7 @@ export class CreateUserDTO {
 
    
     @IsEnum(Role)
-    @ApiProperty({ default: 1})  
+    @ApiProperty({ enum: ['Admin', 'Moderator', 'User'], default: 1})  
     @IsOptional()
-    role: number;
+    role: Role.cliente;
 }
