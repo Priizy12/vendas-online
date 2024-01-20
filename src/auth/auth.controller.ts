@@ -8,9 +8,11 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { FileService } from '../file/file.service';
 import { AuthGuard } from "../guards/auth.guard";
 import { User } from "../decorators/user.decorator";
+import { ApiTags } from "@nestjs/swagger";
 
 
 @Controller()
+@ApiTags('Controle de autenticação')
 export class AuthController {
 
     constructor(
@@ -38,13 +40,7 @@ export class AuthController {
         return this.AuthService.updatePass( senha, token, id)
     }
 
-    @UseGuards(AuthGuard)
-    @Post('me')
-    async me(@User() user) {
-        return {
-            user
-        }
-    }
+  
 
 
     /*

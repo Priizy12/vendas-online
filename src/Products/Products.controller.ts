@@ -4,11 +4,13 @@ import { AuthGuard } from "src/guards/auth.guard";
 import { ProductService } from './Products.service';
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
+import { ApiTags } from "@nestjs/swagger";
 
 
 @UseGuards(AuthGuard)
 
 @Controller('Product')
+@ApiTags('Controle de Produtos')
 export class ProductController {
 
     constructor(
