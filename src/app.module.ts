@@ -8,12 +8,18 @@ import { MailerModule} from '@nestjs-modules/mailer';
 import { PrismaModule } from './database/prisma.module';
 import { ProductModule } from './Products/Products.module';
 import { CartProductModule } from './cartProduct/cart_product.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 
 
 
 @Module({
   imports: [ forwardRef(() => UsersModule),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'node_modules', 'swagger-ui-dist'),
+      serveRoot: 'swagger',
+    }),
     CartProductModule,
     ProductModule,
     PrismaModule,
