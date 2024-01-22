@@ -1,6 +1,7 @@
 import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, } from "class-validator";
 import { Role } from "../../enums/role.enum";
 import { ApiProperty } from "@nestjs/swagger";
+import { Genero } from "../../enums/genero.enum";
 
 
 
@@ -24,11 +25,6 @@ export class CreateUserDTO {
     @IsNotEmpty()
     @IsString()
     @ApiProperty({ required: true})
-    cpf: string;
-
-    @IsNotEmpty()
-    @IsString()
-    @ApiProperty({ required: true})
     Telefone: string;
 
    
@@ -36,4 +32,10 @@ export class CreateUserDTO {
     @ApiProperty({ enum: ['Admin', 'Moderator', 'User'], default: 1})  
     @IsOptional()
     role: Role.cliente;
+
+    @IsEnum(Genero)
+    @IsNotEmpty()
+    @ApiProperty()
+    @IsString()
+    genero: string
 }

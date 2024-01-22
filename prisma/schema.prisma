@@ -13,8 +13,8 @@ model users {
   nome     String  @db.VarChar(125)
   email    String  @unique @db.VarChar(125)
   senha    String  @unique @db.VarChar(100)
-  cpf      String  @unique @db.VarChar(11) 
   Telefone String  @unique @db.VarChar(12)
+  genero   String  
   role Int @default(1)
 }
 
