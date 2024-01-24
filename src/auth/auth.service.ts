@@ -71,7 +71,7 @@ export class AuthService {
       }
     })
 
-    if (!user) throw new BadRequestException('Email ou senha incorretos')
+    if (!user) throw new UnauthorizedException('Email ou senha incorretos')
 
     if (! await bcrypt.compare(senha, user.senha)) {
       throw new UnauthorizedException('Email ou senha incorretos')
