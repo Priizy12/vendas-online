@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, FileTypeValidator, MaxFileSizeValidator, ParseFilePipe, Post, Req, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
+import { BadRequestException, Body, Controller, FileTypeValidator, Header, MaxFileSizeValidator, ParseFilePipe, Post, Req, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import { AuthDTO } from "./dto/auth-login.dto";
 import { AuthRegisterDTO } from "./dto/auth-register.dto";
 import { AuthForgetDTO } from "./dto/auth-forget.dto";
@@ -9,6 +9,7 @@ import { FileService } from '../file/file.service';
 import { AuthGuard } from "../guards/auth.guard";
 import { User } from "../decorators/user.decorator";
 import { ApiTags } from "@nestjs/swagger";
+import { PrismaClient, users } from "@prisma/client";
 
 
 @Controller()
@@ -17,7 +18,8 @@ export class AuthController {
 
     constructor(
         private readonly AuthService: AuthService,
-        private readonly FileService: FileService
+        private readonly FileService: FileService,
+        private readonly Prisma: PrismaClient
     ) { }
 
     @Post('registrar')
@@ -29,6 +31,15 @@ export class AuthController {
     async Login(@Body() { email, senha }: AuthDTO) {
         return this.AuthService.Login({ email, senha })
     }
+
+
+    @UseGuards(AuthGuard)
+    @Post('me')
+    async me(@User() user: users ) {
+      return user;
+    }
+  
+
 
     @Post('Forget')
     async forget(@Body() {email}: AuthForgetDTO) {
