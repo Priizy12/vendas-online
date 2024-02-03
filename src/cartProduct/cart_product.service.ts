@@ -4,7 +4,6 @@ import { PrismaClient } from "@prisma/client";
 
 
 
-
 @Injectable()
 export class CartProductService {
 
@@ -13,14 +12,31 @@ export class CartProductService {
     async addToCart (data: InserCartDto){
 
       try {
+
+        const product = await this.prisma.produtos.findFirst({
+          where: {
+            id_produto: data.produtoId
+          }
+        })
+
+        if(!product) {
+          throw new BadRequestException("Esse produto não está mais disponivel.")
+        }
+        
         const insert = await this.prisma.card_produtos.create({
             data
         })
 
         return {message: "Produto adicionado ao carrinho", insert}
       } catch (error) {
+        console.log(error)
         throw new BadRequestException('Opa, ocorreu algum erro e não foi possivel adiconar esse produto ao carrinho')
       }
     }
+
+
+    // async GetProductToCart () {
+    //   const product = this.prisma.produtos.findMany();
+    // }
 
 }

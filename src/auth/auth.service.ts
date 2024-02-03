@@ -11,9 +11,6 @@ import { PrismaClient, users } from "@prisma/client";
 @Injectable()
 export class AuthService {
 
-  private issuer = 'login';
-  private audience = 'users';
-
   constructor(
     private readonly JWTService: JwtService,
     private readonly userService: UsersService,
@@ -34,9 +31,7 @@ export class AuthService {
         {
           secret: String(process.env.JWT_SECRET),
           expiresIn: '7 days',
-          subject: String(user.id),
-          issuer: this.issuer,
-          audience: this.audience,
+          subject: String(user.id)
         },
       ),
     };
@@ -46,8 +41,6 @@ export class AuthService {
   checkToken(token: string) {
     try {
       const data = this.JWTService.verify(token, {
-        issuer: this.issuer,
-        audience: this.audience,
         secret: String(process.env.JWT_SECRET)
       });
 
@@ -97,8 +90,6 @@ export class AuthService {
       {
         expiresIn: '30 minutes',
         subject: String(user.id),
-        issuer: 'forget',
-        audience: 'users'
       },
     );
 
@@ -120,8 +111,7 @@ export class AuthService {
 
     try {
       const data: any = this.JWTService.verify(token, {
-        issuer: 'forget',
-        audience: 'users',
+        secret: String(process.env.JWT_SECRET)
       });
 
       if (isNaN(Number(data.id))) {
