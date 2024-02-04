@@ -4,12 +4,12 @@ import { AuthRegisterDTO } from "./dto/auth-register.dto";
 import { AuthForgetDTO } from "./dto/auth-forget.dto";
 import { AuthUpdateDTO } from "./dto/auth-updatePass.dto";
 import { AuthService } from './auth.service';
-import { FileInterceptor } from "@nestjs/platform-express";
+
 import { FileService } from '../file/file.service';
 import { AuthGuard } from "../guards/auth.guard";
 import { User } from "../decorators/user.decorator";
 import { ApiTags } from "@nestjs/swagger";
-import { PrismaClient, users } from "@prisma/client";
+import { users } from "@prisma/client";
 
 
 @Controller()
@@ -19,7 +19,6 @@ export class AuthController {
     constructor(
         private readonly AuthService: AuthService,
         private readonly FileService: FileService,
-        private readonly Prisma: PrismaClient
     ) { }
 
     @Post('registrar')
