@@ -9,7 +9,7 @@ export class CreateProductDto {
     @ApiProperty()
     nome_produto: string;
 
-
+    @IsNumber()
     @IsNotEmpty()
     @ApiProperty()
     preco: number;      
@@ -20,6 +20,7 @@ export class CreateProductDto {
     descricao: string;
 
     @IsOptional()
+    @IsNumber()
     @ApiProperty()
     estoque: number;
 
