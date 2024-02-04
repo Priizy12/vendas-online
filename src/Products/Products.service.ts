@@ -54,6 +54,10 @@ export class ProductService {
                 data
             })
 
+            if(isNaN(Number(data.preco)) || isNaN(Number(data.estoque))) {
+                throw new BadRequestException("Preco and estoque must be a number.")
+            }
+
             return product;
            
         } catch (e) {
