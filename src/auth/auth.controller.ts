@@ -51,29 +51,4 @@ export class AuthController {
     }
 
   
-
-
-    /*
-    @UseInterceptors(FileInterceptor('file'))
-    @UseGuards(AuthGuard)
-    @Post('photo')
-    async photo(@User()  user: UserEntity, @UploadedFile('file', new ParseFilePipe({
-        validators: [
-            new FileTypeValidator({ fileType: 'image/png' }),
-            new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 8 })
-        ]
-    })) photo: Express.Multer.File) {
-
-        const filename = `photo${user.id}.png`
-
-        try {
-            await this.FileService.upload(photo, filename)
-        } catch (error) {
-            throw new BadRequestException(error)
-        }
-
-        return photo;
-    }
-
-*/
 }

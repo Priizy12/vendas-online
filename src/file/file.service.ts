@@ -1,20 +1,27 @@
 import { Injectable } from "@nestjs/common";
-import { PathLike } from "fs";
-import { writeFile } from "fs/promises";
-import { join } from "path";
+import { createClient } from "@supabase/supabase-js";
+import { FileDTO } from "../Products/dto/file-product.dto";
 
 
 
 @Injectable()
 export class FileService {
 
-    getDestinationPath() {
-        return join(__dirname, '..', '..', 'storage', 'tmp')
-    }
+    async upload(file: FileDTO) {
 
-    async upload (file: Express.Multer.File, filename: string) {
-        const path: PathLike = join(this.getDestinationPath(), filename)
-       await writeFile (path, file.buffer)
-       return path;
+        const URL = "https://nwbuaecnkykrchusnnef.supabase.co"
+        const Key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im53YnVhZWNua3lrcmNodXNubmVmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcwNzA4MDg3MywiZXhwIjoyMDIyNjU2ODczfQ.-VCEpBxnBqlsUi_0azN6HpI_Ybu747XN1nQwkxh7kCE"
+        const supabase = createClient(URL, Key, {
+            auth: {
+                persistSession: false,
+
+            }
+        })
+
+        const data = await supabase.storage.from("Products").upload(file.originalname, file.buffer, {
+            upsert: true
+        })
+
+        return data;
     }
 }
