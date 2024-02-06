@@ -30,9 +30,7 @@ model Produtos {
   createdAt    DateTime        @default(now())
   updatedAt    DateTime        @updatedAt
   card         card_produtos[]
-
 }
-
 
 
 model card_produtos {

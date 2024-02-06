@@ -24,10 +24,4 @@ export class CreateProductDto {
     @ApiProperty()
     estoque: number;
 
-    @IsDate()
-    createdAt: Date
-
-    @IsDate()
-    updatedAt: Date
-
 }
