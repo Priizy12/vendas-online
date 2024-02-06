@@ -1,5 +1,4 @@
-import { OrderModule } from './order-payament/order.module';
-import { OrderController } from './order-payament/order.controller';
+
 import { Module, forwardRef } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -18,7 +17,7 @@ import { join } from 'path';
 
 @Module({
   imports: [
-    OrderModule, forwardRef(() => UsersModule),
+     forwardRef(() => UsersModule),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'node_modules', 'swagger-ui-dist'),
       serveRoot: 'swagger',
@@ -50,7 +49,7 @@ import { join } from 'path';
     })
   ],
   controllers: [
-    OrderController, AppController],
+     AppController],
   providers: [AppService],
 })
 export class AppModule { }
