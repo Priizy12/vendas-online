@@ -3,32 +3,51 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-   directUrl = env("DIRECT_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model users {
-  id       Int     @id @default(autoincrement())
-  nome     String  @db.VarChar(125)
-  email    String  @unique @db.VarChar(125)
-  senha    String  @db.VarChar(100)
-  Telefone String  @unique
-  genero   String  
-  role Int @default(1)
+  id       Int    @id @default(autoincrement())
+  nome     String @db.VarChar(125)
+  email    String @unique @db.VarChar(125)
+  CPF      String @unique @db.VarChar(14)
+  senha    String @db.VarChar(100)
+  Telefone String @unique
+  genero   String
+  role     Int    @default(1)
+
+  adress adress[]
 }
 
 model Produtos {
-  id_produto   Int    @id @default(autoincrement())
-  nome_produto String @db.VarChar(125)
-  preco Int
-  descricao String @db.VarChar(125)
-  estoque Int
-  card card_produtos[]
+  id_produto   Int             @id @default(autoincrement())
+  nome_produto String          @db.VarChar(125)
+  preco        Int
+  descricao    String          @db.VarChar(125)
+  estoque      Int
+  card         card_produtos[]
 }
 
 model card_produtos {
-  id       Int     @id @default(autoincrement())
-  produtos Produtos @relation(fields: [produtoId], references: [id_produto])
+  id        Int      @id @default(autoincrement())
+  produtos  Produtos @relation(fields: [produtoId], references: [id_produto])
   produtoId Int
+  amount    Int
+}
+
+model adress {
+  id               Int    @id @default(autoincrement())
+  CEP              String 
+  Bairro           String
+  Cidade           String
+  Estado           String
+  Rua              String
+  Ponto_referencia String
+  numero           Int?
+  complemento      String
+  Telefone_contato String
+  endereco_id      Int
+  user users @relation(fields: [endereco_id], references: [id])
 }
