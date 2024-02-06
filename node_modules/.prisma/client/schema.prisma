@@ -15,6 +15,7 @@ model users {
   senha     String   @db.VarChar(100)
   Telefone  String   @unique
   genero    String
+  CPF       String   @unique
   role      Int      @default(1)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -26,22 +27,13 @@ model Produtos {
   preco        Int
   descricao    String          @db.VarChar(125)
   estoque      Int
-  categoryId   Int
   createdAt    DateTime        @default(now())
   updatedAt    DateTime        @updatedAt
   card         card_produtos[]
 
-  category Categoria @relation(fields: [categoryId], references: [id_categoria])
 }
 
-model Categoria {
-  id_categoria Int      @id @default(autoincrement())
-  Titulo       String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
 
-  product Produtos[]
-}
 
 model card_produtos {
   id        Int      @id @default(autoincrement())

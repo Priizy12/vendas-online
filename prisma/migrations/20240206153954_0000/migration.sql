@@ -6,6 +6,7 @@ CREATE TABLE "users" (
     "senha" VARCHAR(100) NOT NULL,
     "Telefone" TEXT NOT NULL,
     "genero" TEXT NOT NULL,
+    "CPF" TEXT NOT NULL,
     "role" INTEGER NOT NULL DEFAULT 1,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -20,21 +21,10 @@ CREATE TABLE "Produtos" (
     "preco" INTEGER NOT NULL,
     "descricao" VARCHAR(125) NOT NULL,
     "estoque" INTEGER NOT NULL,
-    "categoryId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Produtos_pkey" PRIMARY KEY ("id_produto")
-);
-
--- CreateTable
-CREATE TABLE "Categoria" (
-    "id_categoria" SERIAL NOT NULL,
-    "Titulo" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "Categoria_pkey" PRIMARY KEY ("id_categoria")
 );
 
 -- CreateTable
@@ -51,8 +41,8 @@ CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 -- CreateIndex
 CREATE UNIQUE INDEX "users_Telefone_key" ON "users"("Telefone");
 
--- AddForeignKey
-ALTER TABLE "Produtos" ADD CONSTRAINT "Produtos_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Categoria"("id_categoria") ON DELETE RESTRICT ON UPDATE CASCADE;
+-- CreateIndex
+CREATE UNIQUE INDEX "users_CPF_key" ON "users"("CPF");
 
 -- AddForeignKey
 ALTER TABLE "card_produtos" ADD CONSTRAINT "card_produtos_produtoId_fkey" FOREIGN KEY ("produtoId") REFERENCES "Produtos"("id_produto") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
+import { IsDate, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 import { Role } from "src/enums/role.enum";
 
 export class CreateProductDto {
@@ -24,5 +24,10 @@ export class CreateProductDto {
     @ApiProperty()
     estoque: number;
 
+    @IsDate()
+    createdAt: Date
+
+    @IsDate()
+    updatedAt: Date
 
 }
