@@ -1,3 +1,4 @@
+import { PrismaClient } from '@prisma/client';
 import { OrderService } from './order.service';
 import { Module } from '@nestjs/common';
 
@@ -5,6 +6,6 @@ import { Module } from '@nestjs/common';
     imports: [],
     controllers: [],
     providers: [
-        OrderService,],
+        OrderService, PrismaClient],
 })
 export class OrderModule { }

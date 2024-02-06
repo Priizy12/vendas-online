@@ -24,7 +24,10 @@ export class CreateProductDto {
     @ApiProperty()
     estoque: number;
 
-    // @IsNotEmpty()
-    // image: string;
-
+    @IsString()
+    @IsNotEmpty()
+    @MaxLength(11)
+    @MinLength(11)
+    @ApiProperty()
+    CPF: string;
 }
