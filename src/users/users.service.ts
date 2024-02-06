@@ -56,7 +56,7 @@ export class UsersService {
 
 
 
-  async update(id: number, { email, nome, senha, Telefone, role, genero }: UpdateUserDto) {
+  async update(id: number, { email, nome, senha, Telefone, role, genero, CPF }: UpdateUserDto) {
 
     try {
       const usuarioExist = await this.prisma.users.findFirst({
@@ -81,7 +81,8 @@ export class UsersService {
           senha,
           Telefone,
           role,
-          genero
+          genero,
+          CPF
         }
       });
 
