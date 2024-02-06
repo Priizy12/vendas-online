@@ -24,7 +24,5 @@ export class CreateProductDto {
     @ApiProperty()
     estoque: number;
 
-    // @IsNotEmpty()
-    // image: string;
 
 }
