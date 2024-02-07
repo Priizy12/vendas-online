@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { InserCartDto } from "./dto/insert-cart.dto";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Produtos } from "@prisma/client";
+import { CreateProductDto } from "../Products/dto/create-product.dto";
 
 
 
@@ -9,13 +10,12 @@ export class CartProductService {
 
     constructor( private readonly prisma: PrismaClient) {}
 
-    async addToCart (data: InserCartDto){
+    async addProductInCart (data: InserCartDto, id_produto: number){
 
       try {
-
         const product = await this.prisma.produtos.findFirst({
           where: {
-            id_produto: data.produtoId
+            id_produto: id_produto
           }
         })
 
@@ -35,8 +35,23 @@ export class CartProductService {
     }
 
 
-    // async GetProductToCart () {
-    //   const product = this.prisma.produtos.findMany();
-    // }
+  async GetProductInCart () {
+      const product = this.prisma.card_produtos.findMany({
+        include: {
+          produtos: {
+            select:{
+              nome_produto: true,
+              preco: true,
+              descricao: true,
+              estoque: true
+            }
+          }
+        }
+      });
+    
+      return product
+     }
+
+    
 
 }

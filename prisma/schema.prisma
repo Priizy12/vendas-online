@@ -36,5 +36,6 @@ model Produtos {
 model card_produtos {
   id        Int      @id @default(autoincrement())
   produtos  Produtos @relation(fields: [produtoId], references: [id_produto])
+  amount  Int 
   produtoId Int
 }
