@@ -1,7 +1,9 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
 import { CartProductService } from './cart_product.service';
 import { InserCartDto } from './dto/insert-cart.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { UpdateCartDto } from './dto/update-cart.dto';
+import { Paramid } from '../decorators/param-id.decorator';
 
 
 
@@ -11,16 +13,29 @@ import { ApiTags } from '@nestjs/swagger';
 @ApiTags('Controle de Carrinho de produtos.')
 export class CartProductController {
 
-    constructor(private readonly cartproductService: CartProductService) {}
+   constructor(private readonly cartproductService: CartProductService) { }
 
-@Post('insert')
- async insert (@Body() data: InserCartDto, id_produto: number) {
-    return this.cartproductService.addProductInCart(data, id_produto)
- }
 
- @Get()
- async getProductInCart () {
-    return this.cartproductService.GetProductInCart()
- }
+   @Get()
+   async getProductInCart() {
+      return this.cartproductService.GetProductInCart()
+   }
+
+
+   @Post('insert')
+   async insert(@Body() data: InserCartDto, id_produto: number) {
+      return this.cartproductService.addProductInCart(data, id_produto)
+   }
+
+   @Put(':id')
+   async updateProduct (@Body() data: UpdateCartDto, @Paramid() id ) {
+      return this.cartproductService.UpdateProduct(data, id)
+   }
+
+   @Delete(':id')
+   async removeProductIncart(@Paramid() produtoId) {
+      return this.cartproductService.deleteProductInCart(produtoId)
+   }
+
 
 }
