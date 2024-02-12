@@ -9,7 +9,12 @@ export class InserCartDto {
     @ApiProperty()
     produtoId: number
 
+    @ApiProperty()
     @IsNumber()
     amount: number
+
+    @ApiProperty()
+    @IsNumber()
+    usuarioId: number;
 
 }
