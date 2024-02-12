@@ -9,7 +9,7 @@ import { AuthGuard } from '../guards/auth.guard';
 
 
 
-@UseGuards(AuthGuard)
+
 @Controller('cart')
 @ApiTags('Controle de Carrinho de produtos.')
 export class CartProductController {
