@@ -30,7 +30,9 @@ CREATE TABLE "Produtos" (
 -- CreateTable
 CREATE TABLE "card_produtos" (
     "id" SERIAL NOT NULL,
+    "amount" INTEGER NOT NULL,
     "produtoId" INTEGER NOT NULL,
+    "usuarioId" INTEGER NOT NULL,
 
     CONSTRAINT "card_produtos_pkey" PRIMARY KEY ("id")
 );
@@ -43,6 +45,9 @@ CREATE UNIQUE INDEX "users_Telefone_key" ON "users"("Telefone");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_CPF_key" ON "users"("CPF");
+
+-- AddForeignKey
+ALTER TABLE "card_produtos" ADD CONSTRAINT "card_produtos_usuarioId_fkey" FOREIGN KEY ("usuarioId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "card_produtos" ADD CONSTRAINT "card_produtos_produtoId_fkey" FOREIGN KEY ("produtoId") REFERENCES "Produtos"("id_produto") ON DELETE RESTRICT ON UPDATE CASCADE;
