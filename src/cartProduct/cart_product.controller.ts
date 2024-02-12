@@ -4,6 +4,7 @@ import { InserCartDto } from './dto/insert-cart.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { Paramid } from '../decorators/param-id.decorator';
+import { AuthGuard } from '../guards/auth.guard';
 
 
 
@@ -16,7 +17,7 @@ export class CartProductController {
 
    constructor(private readonly cartproductService: CartProductService) { }
 
-
+   @UseGuards(AuthGuard)
    @Get()
    async getProductInCart() {
       return this.cartproductService.GetProductInCart()
