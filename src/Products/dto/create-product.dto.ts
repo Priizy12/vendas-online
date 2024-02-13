@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
-import { Role } from "src/enums/role.enum";
+import {  IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+
 
 export class CreateProductDto {
 

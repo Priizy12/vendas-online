@@ -31,6 +31,14 @@ model Produtos {
   createdAt    DateTime        @default(now())
   updatedAt    DateTime        @updatedAt
   card         card_produtos[]
+  image        ImagemProduto[]
+}
+
+model ImagemProduto {
+  id        Int      @id @default(autoincrement())
+  url       String
+  produtoId Int
+  produto   Produtos @relation(fields: [produtoId], references: [id_produto])
 }
 
 model card_produtos {

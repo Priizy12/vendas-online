@@ -10,7 +10,7 @@ import { Paramid } from '../decorators/param-id.decorator';
 import { ApiTags } from '@nestjs/swagger';
 
 
-@UseGuards( AuthGuard, RoleGuard)
+@UseGuards(AuthGuard, RoleGuard)
 @Controller('users')
 @ApiTags('Controle de Usuarios')
 export class UsersController {

@@ -1,7 +1,6 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { InserCartDto } from "./dto/insert-cart.dto";
 import { PrismaClient, Produtos } from "@prisma/client";
-import { CreateProductDto } from "../Products/dto/create-product.dto";
 import { UpdateCartDto } from "./dto/update-cart.dto";
 
 
@@ -11,46 +10,46 @@ export class CartProductService {
 
   constructor(private readonly prisma: PrismaClient) { }
 
-  async addProductInCart(data: InserCartDto, id_produto: number) {
+  async addProductInCart(data: InserCartDto) {
+    const { produtoId, amount } = data;
 
-    try {
-      const product = await this.prisma.produtos.findFirst({
-        where: {
-          id_produto: id_produto
-        }
-      })
 
-      if (!product) {
-        throw new BadRequestException("Esse produto não está mais disponivel.")
-      }
+    const produto = await this.prisma.produtos.findUnique({
+      where: { id_produto: produtoId },
+    });
 
-      const insert = await this.prisma.card_produtos.create({
-        data
-      })
-
-      return { message: "Produto adicionado ao carrinho", insert }
-    } catch (error) {
-      console.log(error)
-      throw new BadRequestException('Opa, ocorreu algum erro e não foi possivel adiconar esse produto ao carrinho')
+    if (!produto) {
+      throw new NotFoundException('Produto não encontrado');
     }
+
+    if (produto.estoque < amount) {
+      throw new BadRequestException('Estoque insuficiente');
+    }
+
+
+    const newCartItem = await this.prisma.card_produtos.create({
+      data
+    });
+
+    return newCartItem;
   }
 
 
-  async GetProductInCart() {
-    const product = this.prisma.card_produtos.findMany({
-      include: {
-        produtos: {
-          select: {
-            nome_produto: true,
-            preco: true,
-            descricao: true,
-            estoque: true
+  async GetProductInCartById(usuarioId:number) {
+    const cartItems = await this.prisma.card_produtos.findMany({
+      where: { usuarioId },
+      include: { 
+          produtos: {
+            select: {
+              nome_produto: true,
+              preco: true,
+              descricao: true
+            }
           }
-        }
-      }
+      },
     });
 
-    return product
+    return cartItems;
   }
 
 
@@ -97,8 +96,8 @@ export class CartProductService {
         }
       })
 
-      return {sucess: true}
-      
+      return { sucess: true }
+
     } catch (error) {
       console.log(error)
       throw new BadRequestException("Produto nao foi removido do carrinho, por favor espere, ou atualize a pagina e tente novamente")

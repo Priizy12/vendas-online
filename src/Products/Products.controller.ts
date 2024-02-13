@@ -11,7 +11,6 @@ import { FileDTO } from "./dto/file-product.dto";
 
 
 @UseGuards(AuthGuard)
-
 @Controller('Product')
 @ApiTags('Controle de Produtos')
 export class ProductController {
@@ -47,18 +46,13 @@ export class ProductController {
 
     @UseInterceptors(FileInterceptor('file'))
     @Post('Image')
-    async photoProduct(@UploadedFile() file: FileDTO) {
-        return this.FileService.upload(file)
+    async photoProduct(@UploadedFile() file: FileDTO, produtoId: number) {
+        return this.FileService.upload(file, produtoId)
     }
 
 
     @Delete(':id')
     async deleteProduct(@Paramid() id_produto) {
         return this.ProductService.delete(id_produto)
-
-
-       
-
-
     }
 }

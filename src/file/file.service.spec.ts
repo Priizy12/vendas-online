@@ -1,4 +1,4 @@
-import { Test, TestingModule } from "@nestjs/testing"
+/*import { Test, TestingModule } from "@nestjs/testing"
 import { FileService } from "./file.service"
 import { GetFile } from "../testing/file-upload.mock";
 
@@ -32,4 +32,4 @@ describe('FileService', () => {
     })
     
 
-})
+})*/

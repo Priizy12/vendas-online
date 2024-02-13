@@ -10,23 +10,22 @@ import { AuthGuard } from '../guards/auth.guard';
 
 
 
-
+@UseGuards(AuthGuard)
 @Controller('cart')
 @ApiTags('Controle de Carrinho de produtos.')
 export class CartProductController {
 
    constructor(private readonly cartproductService: CartProductService) { }
 
-   @UseGuards(AuthGuard)
-   @Get()
-   async getProductInCart() {
-      return this.cartproductService.GetProductInCart()
+   @Get(":id")
+   async getProductInCart(@Paramid() usuarioId: number) {
+      return this.cartproductService.GetProductInCartById(usuarioId)
    }
 
 
    @Post('insert')
-   async insert(@Body() data: InserCartDto, id_produto: number) {
-      return this.cartproductService.addProductInCart(data, id_produto)
+   async insert(@Body() data: InserCartDto, usuarioId: number) {
+      return this.cartproductService.addProductInCart(data)
    }
 
    @Put(':id')
