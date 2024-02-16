@@ -11,6 +11,8 @@ import { ProductModule } from './Products/Products.module';
 import { CartProductModule } from './cartProduct/cart_product.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { CategoryProductModule } from './CategoryProduct/category.module';
+import { AdressModule } from './Adress/adress.module';
 
 
 
@@ -25,6 +27,8 @@ import { join } from 'path';
     CartProductModule,
     ProductModule,
     PrismaModule,
+    CategoryProductModule,
+    AdressModule,
     forwardRef(() => AuthModule),
     ConfigModule.forRoot(),
     MailerModule.forRoot({

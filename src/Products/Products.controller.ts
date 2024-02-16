@@ -5,9 +5,6 @@ import { ProductService } from './Products.service';
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { ApiTags } from "@nestjs/swagger";
-import { FileService } from "../file/file.service";
-import { FileInterceptor } from "@nestjs/platform-express";
-import { FileDTO } from "./dto/file-product.dto";
 
 
 @UseGuards(AuthGuard)
@@ -17,7 +14,7 @@ export class ProductController {
 
     constructor(
         private readonly ProductService: ProductService,
-        private readonly FileService: FileService
+        //private readonly FileService: FileService
     ) { }
 
 
@@ -44,11 +41,11 @@ export class ProductController {
         return this.ProductService.update(id, data)
     }
 
-    @UseInterceptors(FileInterceptor('file'))
-    @Post('Image')
-    async photoProduct(@UploadedFile() file: FileDTO, produtoId: number) {
-        return this.FileService.upload(file, produtoId)
-    }
+    // @UseInterceptors(FileInterceptor('file'))
+    // @Post('Image')
+    // async photoProduct(@UploadedFile() file: FileDTO, produtoId: number) {
+    //    return this.FileService.upload(file, produtoId)
+    // }
 
 
     @Delete(':id')

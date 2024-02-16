@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+/*import { Injectable } from "@nestjs/common";
 import { createClient } from "@supabase/supabase-js";
 import { FileDTO } from "../Products/dto/file-product.dto";
 import { PrismaClient } from "@prisma/client";
@@ -37,4 +37,4 @@ export class FileService {
 
         return data;
     }
-}
+}*/

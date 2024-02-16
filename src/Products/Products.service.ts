@@ -67,7 +67,7 @@ export class ProductService {
     }
 
 
-    async update(id_produto: number, { nome_produto, preco, descricao, estoque}: UpdateProductDto) {
+    async update(id_produto: number, { nome_produto, preco, descricao, estoque, categoryId}: UpdateProductDto) {
         try {
             const productExist = await this.prisma.produtos.findUnique({
                 where: {
@@ -81,6 +81,7 @@ export class ProductService {
                 preco,
                 descricao,
                 estoque,
+                categoryId
             },
             where: {
                 id_produto: Number(id_produto)

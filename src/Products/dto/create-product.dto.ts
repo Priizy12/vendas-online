@@ -19,9 +19,13 @@ export class CreateProductDto {
     @ApiProperty()
     descricao: string;
 
-    @IsOptional()
     @IsNumber()
     @ApiProperty()
     estoque: number;
+
+    
+    @IsNumber()
+    @ApiProperty()
+    categoryId: number;
 
 }

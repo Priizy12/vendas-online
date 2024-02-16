@@ -5,13 +5,13 @@ import { ProductController } from "./Products.controller";
 import { ProductService } from "./Products.service";
 import { PrismaModule } from "../database/prisma.module";
 import { PrismaClient } from "@prisma/client";
-import { FileModule } from "../file/file.module";
+
 
 
 
 
 @Module({
-    imports: [ AuthModule, forwardRef(() => UsersModule), PrismaModule, FileModule],
+    imports: [ AuthModule, forwardRef(() => UsersModule), PrismaModule],
     controllers: [ProductController],
     providers: [ProductService, PrismaClient],
     exports: [ProductService, ProductModule]

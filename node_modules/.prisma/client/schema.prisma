@@ -9,37 +9,43 @@ datasource db {
 }
 
 model users {
-  id            Int             @id @default(autoincrement())
-  nome          String          @db.VarChar(125)
-  email         String          @unique @db.VarChar(125)
-  senha         String          @db.VarChar(100)
-  Telefone      String          @unique
-  genero        String
-  CPF           String          @unique
-  role          Int             @default(1)
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+  id        Int      @id @default(autoincrement())
+  nome      String   @db.VarChar(125)
+  email     String   @unique @db.VarChar(125)
+  senha     String   @db.VarChar(100)
+  Telefone  String   @unique
+  genero    String
+  CPF       String   @unique
+  role      Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  adress        Adress[]
   card_produtos card_produtos[]
 }
 
 model Produtos {
   id_produto   Int             @id @default(autoincrement())
   nome_produto String          @db.VarChar(125)
-  preco        Int
+  preco        Float
   descricao    String          @db.VarChar(125)
   estoque      Int
   createdAt    DateTime        @default(now())
   updatedAt    DateTime        @updatedAt
   card         card_produtos[]
-  image        ImagemProduto[]
+  categoryId Int
+
+  produto Category @relation(fields: [categoryId], references: [id])
 }
 
-model ImagemProduto {
-  id        Int      @id @default(autoincrement())
-  url       String
-  produtoId Int
-  produto   Produtos @relation(fields: [produtoId], references: [id_produto])
+model Category {
+  id        Int    @id @default(autoincrement())
+  nome      String
+  
+  Produtos Produtos[]
 }
+
+
 
 model card_produtos {
   id        Int @id @default(autoincrement())
@@ -49,4 +55,19 @@ model card_produtos {
 
   usuario  users    @relation(fields: [usuarioId], references: [id])
   produtos Produtos @relation(fields: [produtoId], references: [id_produto])
+}
+
+model Adress {
+  id                  Int    @id @default(autoincrement())
+  CEP                 String
+  numero              Int?
+  complemento         String
+  ponto_de_referencia String
+  bairro              String
+  estado              String
+  cidade              String
+  telefone_contato    String
+  endereco_id         Int
+
+  user users @relation(fields: [endereco_id], references: [id])
 }
