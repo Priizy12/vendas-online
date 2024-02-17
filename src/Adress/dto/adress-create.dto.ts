@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsNumber,  IsString } from "class-validator";
+import { IsNotEmpty, IsNumber,  IsString, MinLength, MaxLength } from "class-validator";
 
 export class AdressDTO {
 
@@ -7,6 +7,8 @@ export class AdressDTO {
     @IsNotEmpty()
     @IsString()
     @ApiProperty()
+    @MinLength(8)
+    @MaxLength(8)
     CEP: string;
 
 
@@ -43,6 +45,8 @@ export class AdressDTO {
     @IsNotEmpty()
     @IsString()
     @ApiProperty()
+    @MinLength(11)
+    @MaxLength(11)
     telefone_contato: string;
 
     @IsNotEmpty()

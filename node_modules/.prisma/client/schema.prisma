@@ -35,7 +35,7 @@ model Produtos {
   card         card_produtos[]
   categoryId Int
 
-  produto Category @relation(fields: [categoryId], references: [id])
+  produto Category @relation(fields: [categoryId], references: [id] , onDelete: Cascade)
 }
 
 model Category {
@@ -71,3 +71,5 @@ model Adress {
 
   user users @relation(fields: [endereco_id], references: [id])
 }
+
+

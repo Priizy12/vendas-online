@@ -7,30 +7,29 @@ import { ApiTags } from "@nestjs/swagger";
 
 
 @ApiTags("Controle de Endereços")
-@Controller('Endereço')
+@Controller('Endereco')
 export class AdressController {
 
-    constructor(private readonly adressService: AdressService) {}
+    constructor(private readonly adressService: AdressService) { }
 
     @Get()
-    async getAdress () {
+    async getAdress() {
         return this.adressService.getAdress();
     }
 
-
     @Post()
-    async saveAdress (@Body() data: AdressDTO) {
+    async saveAdress(@Body() data: AdressDTO) {
         return this.adressService.saveAdress(data);
     }
 
     @Put(':id')
-    async updateAdress (@Body() data: AdressUpdateDTO) {
-
+    async updateAdress(@Body() data: AdressUpdateDTO, @Paramid() id: number) {
+        return this.adressService.updateAdress(data, id)
     }
 
     @Delete(':id')
-    async deleteAdress (@Paramid() id) {
- 
+    async deleteAdress(@Paramid() id: number) {
+        return this.adressService.deleteAdress(id)
     }
 
 

@@ -51,7 +51,7 @@ export class CategoryProductService {
     }
 
 
-    async update({nome}: UpdateCategoryDto, id: number) {
+    async update({ nome }: UpdateCategoryDto, id: number) {
         try {
             const categoryExist = await this.prisma.category.findFirst({
                 where: {
@@ -88,6 +88,7 @@ export class CategoryProductService {
             })
 
             if (!categoryExist) throw new BadRequestException("Essa Categoria não existe.")
+
 
             const deleteCategory = await this.prisma.category.delete({
                 where: {
