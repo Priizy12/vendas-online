@@ -36,6 +36,17 @@ model Produtos {
   categoryId Int
 
   produto Category @relation(fields: [categoryId], references: [id] , onDelete: Cascade)
+
+  imagem ImageProduto[]
+}
+
+
+model ImageProduto {
+  id        Int    @id @default(autoincrement())
+  url       String
+  produtoId Int
+
+  product Produtos @relation(fields: [produtoId], references: [id_produto])
 }
 
 model Category {

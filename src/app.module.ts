@@ -13,6 +13,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { CategoryProductModule } from './CategoryProduct/category.module';
 import { AdressModule } from './Adress/adress.module';
+import { FileModule } from './file/file.module';
 
 
 
@@ -29,6 +30,7 @@ import { AdressModule } from './Adress/adress.module';
     PrismaModule,
     CategoryProductModule,
     AdressModule,
+    FileModule,
     forwardRef(() => AuthModule),
     ConfigModule.forRoot(),
     MailerModule.forRoot({
