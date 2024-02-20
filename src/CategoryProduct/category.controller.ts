@@ -1,9 +1,12 @@
-import { Body, Controller, Delete, Get, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Post, Put, UseGuards } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { CategoryProductService } from './category.service';
 import { CreateCategoryDTO } from "./dto/create-category.dto";
 import { UpdateCategoryDto } from "./dto/update-category.dto";
 import { Paramid } from "../decorators/param-id.decorator";
+import { RoleGuard } from "../guards/role.guard";
+import { Roles } from "../decorators/role.decorator";
+import { Role } from "../enums/role.enum";
 
 
 
@@ -19,17 +22,23 @@ export class CategoryProductController {
         return this.categoryProduct.getCategory()
     }
 
+    @UseGuards(RoleGuard)
+    @Roles(Role.Admin)
     @Post()
     async saveCategory(@Body() data: CreateCategoryDTO,) {
         return this.categoryProduct.createCategory(data)
     }
 
 
+    @UseGuards(RoleGuard)
+    @Roles(Role.Admin)
     @Put(':id')
     async updateCategory(@Body() data: UpdateCategoryDto, @Paramid() id) {
         return this.categoryProduct.update(data, id)
     }
 
+    @UseGuards(RoleGuard)
+    @Roles(Role.Admin)
     @Delete(':id')
     async deleteCategory(@Paramid() id) {
         return this.categoryProduct.delete(id)

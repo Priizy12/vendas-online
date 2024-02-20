@@ -14,6 +14,7 @@ import { join } from 'path';
 import { CategoryProductModule } from './CategoryProduct/category.module';
 import { AdressModule } from './Adress/adress.module';
 import { FileModule } from './file/file.module';
+import { PaymentModule } from './payment/payment.module';
 
 
 
@@ -31,6 +32,7 @@ import { FileModule } from './file/file.module';
     CategoryProductModule,
     AdressModule,
     FileModule,
+    PaymentModule,
     forwardRef(() => AuthModule),
     ConfigModule.forRoot(),
     MailerModule.forRoot({

@@ -29,6 +29,15 @@ CREATE TABLE "Produtos" (
 );
 
 -- CreateTable
+CREATE TABLE "ImageProduto" (
+    "id" SERIAL NOT NULL,
+    "url" TEXT NOT NULL,
+    "produtoId" INTEGER NOT NULL,
+
+    CONSTRAINT "ImageProduto_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Category" (
     "id" SERIAL NOT NULL,
     "nome" TEXT NOT NULL,
@@ -72,7 +81,10 @@ CREATE UNIQUE INDEX "users_Telefone_key" ON "users"("Telefone");
 CREATE UNIQUE INDEX "users_CPF_key" ON "users"("CPF");
 
 -- AddForeignKey
-ALTER TABLE "Produtos" ADD CONSTRAINT "Produtos_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Produtos" ADD CONSTRAINT "Produtos_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ImageProduto" ADD CONSTRAINT "ImageProduto_produtoId_fkey" FOREIGN KEY ("produtoId") REFERENCES "Produtos"("id_produto") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "card_produtos" ADD CONSTRAINT "card_produtos_usuarioId_fkey" FOREIGN KEY ("usuarioId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

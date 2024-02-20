@@ -1,4 +1,5 @@
-import { Controller, Get } from "@nestjs/common";
+import { Controller, Get, Post } from "@nestjs/common";
+import { PaymentService } from "./payment.service";
 
 
 
@@ -7,21 +8,21 @@ import { Controller, Get } from "@nestjs/common";
 export class PaymentController {
 
 
-    @Get()
-    async paymentCheckout () {
+    constructor(private readonly paymentService: PaymentService) { }
 
+
+    @Post('create')
+    async createPayment() {
+        return this.paymentService.createPayment();
     }
 
+
     @Get()
-    async paymentSucess () {
+    async paymentpending() {
 
     }
     @Get()
-    async paymentpending () {
-
-    }
-    @Get()
-    async paymentfailure () {
+    async paymentfailure() {
 
     }
 
