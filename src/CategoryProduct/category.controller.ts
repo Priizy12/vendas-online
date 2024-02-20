@@ -24,7 +24,6 @@ export class CategoryProductController {
     }
 
     @UseGuards(AuthGuard)
-    @UseGuards(RoleGuard)
     @Roles(Role.Admin)
     @Post()
     async saveCategory(@Body() data: CreateCategoryDTO,) {
@@ -32,7 +31,6 @@ export class CategoryProductController {
     }
 
     @UseGuards(AuthGuard)
-    @UseGuards(RoleGuard)
     @Roles(Role.Admin)
     @Put(':id')
     async updateCategory(@Body() data: UpdateCategoryDto, @Paramid() id) {
@@ -40,7 +38,6 @@ export class CategoryProductController {
     }
 
     @UseGuards(AuthGuard)
-    @UseGuards(RoleGuard)
     @Roles(Role.Admin)
     @Delete(':id')
     async deleteCategory(@Paramid() id) {
