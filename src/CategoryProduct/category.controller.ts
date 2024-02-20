@@ -10,7 +10,7 @@ import { Role } from "../enums/role.enum";
 import { AuthGuard } from "../guards/auth.guard";
 
 
-@UseGuards(AuthGuard)
+
 @ApiTags('Controle de Categorias')
 @Controller('Category')
 export class CategoryProductController {
@@ -23,6 +23,7 @@ export class CategoryProductController {
         return this.categoryProduct.getCategory()
     }
 
+    @UseGuards(AuthGuard)
     @UseGuards(RoleGuard)
     @Roles(Role.Admin)
     @Post()
@@ -30,7 +31,7 @@ export class CategoryProductController {
         return this.categoryProduct.createCategory(data)
     }
 
-
+    @UseGuards(AuthGuard)
     @UseGuards(RoleGuard)
     @Roles(Role.Admin)
     @Put(':id')
@@ -38,6 +39,7 @@ export class CategoryProductController {
         return this.categoryProduct.update(data, id)
     }
 
+    @UseGuards(AuthGuard)
     @UseGuards(RoleGuard)
     @Roles(Role.Admin)
     @Delete(':id')
