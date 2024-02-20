@@ -1,11 +1,13 @@
-import { Body, Controller, Delete, Get, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Post, Put, UseGuards } from "@nestjs/common";
 import { AdressDTO } from "./dto/adress-create.dto";
 import { AdressUpdateDTO } from "./dto/adress-update.dto";
 import { Paramid } from "../decorators/param-id.decorator";
 import { AdressService } from "./adress.services";
 import { ApiTags } from "@nestjs/swagger";
+import { AuthGuard } from "../guards/auth.guard";
 
 
+@UseGuards(AuthGuard)
 @ApiTags("Controle de Endereços")
 @Controller('Endereco')
 export class AdressController {
