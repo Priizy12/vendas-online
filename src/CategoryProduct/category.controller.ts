@@ -7,9 +7,10 @@ import { Paramid } from "../decorators/param-id.decorator";
 import { RoleGuard } from "../guards/role.guard";
 import { Roles } from "../decorators/role.decorator";
 import { Role } from "../enums/role.enum";
+import { AuthGuard } from "../guards/auth.guard";
 
 
-
+@UseGuards(AuthGuard)
 @ApiTags('Controle de Categorias')
 @Controller('Category')
 export class CategoryProductController {
