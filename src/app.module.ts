@@ -34,7 +34,9 @@ import { PaymentModule } from './payment/payment.module';
     FileModule,
     PaymentModule,
     forwardRef(() => AuthModule),
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true
+    }),
     MailerModule.forRoot({
       transport: {
         host: 'smtp.ethereal.email',
