@@ -9,16 +9,17 @@ datasource db {
 }
 
 model users {
-  id        Int      @id @default(autoincrement())
-  nome      String   @db.VarChar(125)
-  email     String   @unique @db.VarChar(125)
-  senha     String   @db.VarChar(100)
-  Telefone  String   @unique
-  genero    String
-  CPF       String   @unique
-  role      Int      @default(1)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id               Int      @id @default(autoincrement())
+  nome             String   @db.VarChar(125)
+  email            String   @unique @db.VarChar(125)
+  senha            String   @db.VarChar(100)
+  Telefone         String   @unique
+  genero           String
+  CPF              String   @unique
+  role             Int      @default(1)
+  stripeCustomerId String?  @db.VarChar(255)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   adress        Adress[]
   card_produtos card_produtos[]
@@ -33,13 +34,12 @@ model Produtos {
   createdAt    DateTime        @default(now())
   updatedAt    DateTime        @updatedAt
   card         card_produtos[]
-  categoryId Int
+  categoryId   Int
 
-  produto Category @relation(fields: [categoryId], references: [id] , onDelete: Cascade)
+  produto Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   imagem ImageProduto[]
 }
-
 
 model ImageProduto {
   id        Int    @id @default(autoincrement())
@@ -50,13 +50,11 @@ model ImageProduto {
 }
 
 model Category {
-  id        Int    @id @default(autoincrement())
-  nome      String
-  
+  id   Int    @id @default(autoincrement())
+  nome String
+
   Produtos Produtos[]
 }
-
-
 
 model card_produtos {
   id        Int @id @default(autoincrement())
@@ -82,5 +80,3 @@ model Adress {
 
   user users @relation(fields: [endereco_id], references: [id])
 }
-
-

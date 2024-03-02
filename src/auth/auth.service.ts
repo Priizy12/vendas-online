@@ -81,7 +81,7 @@ export class AuthService {
       }
     })
 
-    if (!user) throw new UnauthorizedException('Email incorreto/ nao existe')
+    if (!user) throw new UnauthorizedException('Email incorreto/ não existe')
 
     const token = this.JWTService.sign(
       {

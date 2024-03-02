@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { InserCartDto } from "./dto/insert-cart.dto";
-import { PrismaClient, Produtos } from "@prisma/client";
+import { PrismaClient, Produtos, card_produtos } from '@prisma/client';
 import { UpdateCartDto } from "./dto/update-cart.dto";
 
 
@@ -21,11 +21,10 @@ export class CartProductService {
     if (!produto) {
       throw new NotFoundException('Produto não encontrado');
     }
-
-    if (produto.estoque < amount) {
-      throw new BadRequestException('Estoque insuficiente');
+    
+    if (amount > produto.estoque) {
+      throw new BadRequestException('Quantidade desejada excede a quantidade em estoque');
     }
-
 
     const newCartItem = await this.prisma.card_produtos.create({
       data
@@ -35,21 +34,32 @@ export class CartProductService {
   }
 
 
-  async GetProductInCartById(usuarioId:number) {
+  async GetProductInCartById(usuarioId: number) {
+
     const cartItems = await this.prisma.card_produtos.findMany({
       where: { usuarioId },
-      include: { 
-          produtos: {
-            select: {
-              nome_produto: true,
-              preco: true,
-              descricao: true
-            }
+      include: {
+        produtos: {
+          select: {
+            nome_produto: true,
+            preco: true,
+            descricao: true,
+            estoque: true
           }
+        }
       },
     });
 
-    return cartItems;
+    let totalAmount = 0;
+
+    for(const item of cartItems) {
+      totalAmount += item.produtos.preco
+    }
+
+    return {
+      items: cartItems,
+      totalAmount
+    }
   }
 
 
