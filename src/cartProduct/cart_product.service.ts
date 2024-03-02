@@ -37,7 +37,7 @@ export class CartProductService {
   async GetProductInCartById(usuarioId: number) {
 
     const cartItems = await this.prisma.card_produtos.findMany({
-      where: { usuarioId },
+      where: { usuarioId: usuarioId },
       include: {
         produtos: {
           select: {
@@ -49,7 +49,6 @@ export class CartProductService {
         }
       },
     });
-
     let totalAmount = 0;
 
     for(const item of cartItems) {

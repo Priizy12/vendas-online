@@ -14,7 +14,7 @@ import { join } from 'path';
 import { CategoryProductModule } from './CategoryProduct/category.module';
 import { AdressModule } from './Adress/adress.module';
 import { FileModule } from './file/file.module';
-// import { PaymentModule } from './payment/payment.module';
+import { PaymentModule } from './payment/payment.module';
 
 
 
@@ -31,7 +31,7 @@ import { FileModule } from './file/file.module';
     PrismaModule,
     CategoryProductModule,
     AdressModule,
-    // PaymentModule,
+    PaymentModule,
     FileModule,
     forwardRef(() => AuthModule),
     ConfigModule.forRoot({

@@ -10,9 +10,9 @@ import { ProductModule } from "../Products/Products.module";
 
 
 @Module({
-    imports:[CartProductModule, AuthModule, UsersModule, ProductModule],
+    imports:[ AuthModule, UsersModule, ProductModule],
     controllers: [CartProductController,],
     providers: [CartProductService, PrismaClient],
-    exports: [CartProductModule]
+    exports: [CartProductService]
 })
 export class CartProductModule {}

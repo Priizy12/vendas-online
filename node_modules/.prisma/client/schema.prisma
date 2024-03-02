@@ -17,7 +17,6 @@ model users {
   genero           String
   CPF              String   @unique
   role             Int      @default(1)
-  stripeCustomerId String?  @db.VarChar(255)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
