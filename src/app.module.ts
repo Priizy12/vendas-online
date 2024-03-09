@@ -15,6 +15,7 @@ import { CategoryProductModule } from './CategoryProduct/category.module';
 import { AdressModule } from './Adress/adress.module';
 import { FileModule } from './file/file.module';
 import { PaymentModule } from './payment/payment.module';
+import { CartModule } from './cart/cart.module';
 
 
 
@@ -27,6 +28,7 @@ import { PaymentModule } from './payment/payment.module';
       serveRoot: 'swagger',
     }),
     CartProductModule,
+    CartModule,
     ProductModule,
     PrismaModule,
     CategoryProductModule,

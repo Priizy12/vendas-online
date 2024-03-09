@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, Delete } from '@nestjs/common';
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, card_produtos } from '@prisma/client';
 
 
 
@@ -15,10 +15,10 @@ export class ProductService {
 
     async get() {
         try {
-            const Company = await this.prisma.produtos.findMany();
+            const Produtos = await this.prisma.produtos.findMany();
             return {
                 message: "Lista de Produtos",
-                Company
+                Produtos
             };
         } catch (error) {
             console.log(error)
@@ -99,22 +99,29 @@ export class ProductService {
 
 
     async delete(id_produto: number) {
+       try {
+        
         const productExist = await this.prisma.produtos.findFirst({
             where: {
               id_produto: Number(id_produto)
             }
           });
-          if (!productExist) throw new BadRequestException(`Esse produto do id: ${id_produto} não existe`)
+          if (!productExist) throw new BadRequestException(`Esse produto do id: ${id_produto} não existe`);
+
       
-          await this.prisma.produtos.delete({
+        const product =  await this.prisma.produtos.delete({
             where: {
               id_produto: Number(id_produto)
             },
             include: {
-              card: true
-            }
+                card: true
+             }
           });
       
-          return true;
+          return {sucess: true}
+       } catch (error) {
+            console.log(error)
+            throw new BadRequestException("Não foi possivel excluir o produto.")
+       }
     }
 }

@@ -62,7 +62,7 @@ export class ProductController {
     @UseGuards(RoleGuard)
     @Roles(Role.Admin)
     @Delete(':id')
-    async deleteProduct(@Paramid() id_produto) {
+    async deleteProduct(@Paramid() id_produto: number) {
         return this.ProductService.delete(id_produto)
     }
 }

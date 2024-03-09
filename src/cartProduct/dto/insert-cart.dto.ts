@@ -13,8 +13,5 @@ export class InserCartDto {
     @IsNumber()
     amount: number
 
-    @ApiProperty()
-    @IsNumber()
-    usuarioId: number;
 
 }
