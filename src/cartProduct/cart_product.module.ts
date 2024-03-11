@@ -11,7 +11,6 @@ import { ProductModule } from "../Products/Products.module";
 
 @Module({
     imports:[ AuthModule, UsersModule, ProductModule],
-   
     providers: [CartProductService, PrismaClient],
     exports: [CartProductService]
 })

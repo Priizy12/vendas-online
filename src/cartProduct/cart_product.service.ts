@@ -2,9 +2,10 @@ import { BadRequestException, Injectable, NotFoundException, UnauthorizedExcepti
 import { InserCartDto } from "./dto/insert-cart.dto";
 import { PrismaClient, Produtos, card_produtos, cart } from '@prisma/client';
 import { ProductService } from "../Products/Products.service";
+import { UpdateCartDto } from "./dto/update-cart.dto";
 
 
-
+const LINE_AFFECTED = 1
 
 @Injectable()
 export class CartProductService {
@@ -59,20 +60,47 @@ export class CartProductService {
   }
 
   async deleteProductInCart(produtoId: number, cartId: number) {
-   try {
-     await this.prisma.card_produtos.delete({
-      where: {
-        id: produtoId,
-        cartId
+    try {
+      const productInCart = await this.prisma.card_produtos.findFirst({
+        where: {
+          cartId,
+          produtoId: Number(produtoId)
+        }
+      });
+
+      if (!productInCart) {
+        throw new BadRequestException("Produto não encontrado no carrinho.");
+      }
+
+      await this.prisma.card_produtos.delete({
+        where: { id: productInCart.id }
+      });
+
+      return {
+          raw: [],
+          affected: LINE_AFFECTED    
+      }
+
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException("não foi possivel excluir o produto do carrinho, por favor tente novamente.")
+    }
+  }
+
+  async updateProductInCart(data: UpdateCartDto, cart: cart) {
+    await this.productService.getById(data.produtoId);
+
+    const cartProduct = await this.verifyProductInCart(data.produtoId, cart.id);
+
+
+    const { id, ...cartProductWithoutId } = cartProduct;
+
+    return await this.prisma.card_produtos.update({
+      where: { id: cartProduct.id },
+      data: {
+        amount: data.amount
       }
     });
-
-    return true;
-
-   } catch (error) {
-    console.log(error);
-    throw new BadRequestException("não foi possivel excluir o produto do carrinho, por favor tente novamente.")
-   }
-}
+  }
 
 }

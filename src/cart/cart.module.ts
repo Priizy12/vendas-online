@@ -11,7 +11,8 @@ import { CartProductModule } from "../cartProduct/cart_product.module";
 @Module({
     imports: [AuthModule, UsersModule, CartProductModule],
     providers: [CartService, PrismaClient],
-    controllers: [CartController]
+    controllers: [CartController],
+    exports:[CartService]
 })
 
 export class CartModule {}

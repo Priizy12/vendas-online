@@ -5,6 +5,11 @@ import { IsNumber } from "class-validator";
 
 export class UpdateCartDto {
 
+
+    @IsNumber()
+    @ApiProperty()
+    produtoId: number
+
     @ApiProperty()
     @IsNumber()
     amount: number

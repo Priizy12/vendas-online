@@ -1,48 +1,51 @@
-// import { BadRequestException, Injectable } from '@nestjs/common';
-// import { PrismaClient, Produtos } from '@prisma/client';
-// import Stripe from 'stripe';
-// import { CartProductService } from '../cartProduct/cart_product.service';
+import { Injectable } from '@nestjs/common';
+import Stripe from 'stripe';
+import { CartService } from '../cart/cart.service';
 
 
 
-// @Injectable()
-// export class PaymentService {
 
-//     private stripe: Stripe;
+@Injectable()
+export class PaymentService {
 
-//     constructor(private readonly cart: CartProductService) {
-//         this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-//             apiVersion: '2023-10-16',
-//         });
-//     }
+    private stripe: Stripe;
 
-//     async createCheckoutSession(usuarioId: number, produtoId: number) {
+    constructor(
+        private readonly cartService: CartService) {
+        this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+            apiVersion: '2023-10-16',
+        });
+    }
+
+    async createCheckoutSession(userId: number) {
+
+        const cart = this.cartService.findCartByUserId(userId)
+        const produtos = (await cart).carrinho
 
 
+        const line_items = produtos.map(item => {
+            return {
+                price_data: {
+                    currency: 'brl',
+                    product_data: {
+                        name: item.produtos.nome_produto,
+                        description: item.produtos.descricao
+                    },
+                    unit_amount: item.produtos.preco * 100,
+                },
+                quantity: item.amount
+            }
+        });
 
-//         const line_items = produtos.map(item => {
-//             return {
-//                 price_data: {
-//                     currency: 'brl',
-//                     product_data: {
-//                         name: item.produtos.nome_produto,
-//                         description: item.produtos.descricao
-//                     },
-//                     unit_amount: Math.round(item.produtos.preco * 100),
-//                 },
-//                 quantity: item.amount
-//             }
-//         });
+        const session = await this.stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            line_items,
+            mode: 'payment',
+            success_url: 'https://example.com/success',
+            cancel_url: 'https://example.com/cancel',
+        });
 
-//         const session = await this.stripe.checkout.sessions.create({
-//             payment_method_types: ['card'],
-//             line_items,
-//             mode: 'payment',
-//             success_url: 'https://example.com/success',
-//             cancel_url: 'https://example.com/cancel',
-//         });
-
-//         return session;
-//     }
-// }
+        return session;
+    }
+}
 

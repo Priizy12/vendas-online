@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaClient, card_produtos, cart } from '@prisma/client';
-import { NotFoundError } from "rxjs";
 import { InserCartDto } from "./dtos/insert-cart.dto";
-import { CartProductService } from "../cartProduct/cart_product.service";
+import { CartProductService } from "../cartProduct/cart_product.service"
+import { UpdateCartDto } from "../cartProduct/dto/update-cart.dto";
 
 
 const LINE_AFFECTED = 1
@@ -35,41 +35,41 @@ export class CartService {
     }
 
     async findCartByUserId(userId: number) {
-       try {
-        const cart = await this.prisma.cart.findFirst({
-            where: {
-                userId,
-                active: true
-            },
-            include: {
-                carrinho: {
-                    select: {
-                        amount: true,
-                        produtoId: true,
-                        cartId: true,
-                        id: true,
-                        produtos: {
-                            select: {
-                                nome_produto: true,
-                                preco: true,
-                                descricao: true,
-                                imagem: true
+        try {
+            const cart = await this.prisma.cart.findFirst({
+                where: {
+                    userId,
+                    active: true
+                },
+                include: {
+                    carrinho: {
+                        select: {
+                            amount: true,
+                            produtoId: true,
+                            cartId: true,
+                            id: true,
+                            produtos: {
+                                select: {
+                                    nome_produto: true,
+                                    preco: true,
+                                    descricao: true,
+                                    imagem: true
+                                }
                             }
-                        }
-                    },
+                        },
+                    }
                 }
+            });
+
+            if (!cart) {
+                throw new NotFoundException(`não foi possivel encotrar o carrinho`);
             }
-        });
 
-        if (!cart) {
-            throw new NotFoundException(`não foi possivel encotrar o carrinho`);
+            return cart;
+        } catch (error) {
+            console.log(error);
+            throw new BadRequestException("não foi possivel visualizar o carrinho.")
         }
-
-        return cart;
-       } catch (error) {
-        console.log(error);
-        throw new BadRequestException("não foi possivel visualizar o carrinho.")
-       }
     }
 
     async createCart(userId: number) {
@@ -88,7 +88,6 @@ export class CartService {
 
     }
 
-
     async insertProductInCart(data: InserCartDto, userId: number) {
         const cart = await this.findCartByUserId(userId).catch(async () => {
             return this.createCart(userId);
@@ -99,10 +98,20 @@ export class CartService {
         return cart;
     }
 
-    async deleteProductInCart(produtoId: number, userId: number) {
+    async deleteProductInCart( produtoId: number, userId: number) {
         const cart = await this.findCartByUserId(userId)
         return this.cartProductService.deleteProductInCart(produtoId, cart.id)
     }
 
+    async updateProductInCart(data: UpdateCartDto, userId: number){
+        const cart = await this.findCartByUserId(userId).catch(async () => {
+            return this.createCart(userId);
+        });
+
+        await this.cartProductService.updateProductInCart(data, cart)
+
+        return cart;
+    }
+    
 
 }
