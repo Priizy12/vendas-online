@@ -29,6 +29,7 @@ export class PaymentService {
                     currency: 'brl',
                     product_data: {
                         name: item.produtos.nome_produto,
+                        image: item.produtos.imagem,
                         description: item.produtos.descricao
                     },
                     unit_amount: item.produtos.preco * 100,
