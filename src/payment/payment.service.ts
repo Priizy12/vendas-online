@@ -3,8 +3,6 @@ import Stripe from 'stripe';
 import { CartService } from '../cart/cart.service';
 
 
-
-
 @Injectable()
 export class PaymentService {
 
@@ -39,7 +37,7 @@ export class PaymentService {
         });
 
         const session = await this.stripe.checkout.sessions.create({
-            payment_method_types: ['card'],
+            payment_method_types: ['card', 'pix'],
             line_items,
             mode: 'payment',
             success_url: 'https://example.com/success',
