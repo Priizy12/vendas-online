@@ -37,7 +37,7 @@ export class PaymentService {
         });
 
         const session = await this.stripe.checkout.sessions.create({
-            payment_method_types: ['card', 'pix'],
+            payment_method_types: ['card'],
             line_items,
             mode: 'payment',
             success_url: 'https://example.com/success',
