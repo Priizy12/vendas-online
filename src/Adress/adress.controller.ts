@@ -26,6 +26,14 @@ export class AdressController {
     }
 
   
+    @Patch()
+    async updateAdress (@Body() data: AdressDTO, @User() userId: number) {
+        return this.adressService.updateAdress(data, userId)
+    }
 
+    @Delete(':id')
+    async deleteAdress (@Paramid() id: number, @User() userId: number) {
+        return this.adressService.deleteAdress(id, userId)
+    }
 
 }
