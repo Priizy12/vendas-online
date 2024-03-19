@@ -77,7 +77,7 @@ CREATE TABLE "Adress" (
     "estado" TEXT NOT NULL,
     "cidade" TEXT NOT NULL,
     "telefone_contato" TEXT NOT NULL,
-    "endereco_id" INTEGER NOT NULL,
+    "userId" INTEGER NOT NULL,
 
     CONSTRAINT "Adress_pkey" PRIMARY KEY ("id")
 );
@@ -107,4 +107,4 @@ ALTER TABLE "card_produtos" ADD CONSTRAINT "card_produtos_cartId_fkey" FOREIGN K
 ALTER TABLE "card_produtos" ADD CONSTRAINT "card_produtos_produtoId_fkey" FOREIGN KEY ("produtoId") REFERENCES "Produtos"("id_produto") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Adress" ADD CONSTRAINT "Adress_endereco_id_fkey" FOREIGN KEY ("endereco_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Adress" ADD CONSTRAINT "Adress_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

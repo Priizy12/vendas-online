@@ -2,32 +2,36 @@ import { BadRequestException, Injectable } from "@nestjs/common";
 import { PrismaClient } from "@prisma/client";
 import { AdressDTO } from "./dto/adress-create.dto";
 import { AdressUpdateDTO } from "./dto/adress-update.dto";
+import { UsersService } from "../users/users.service";
 
 
 
 @Injectable()
 export class AdressService {
 
-    constructor(private readonly prisma: PrismaClient) { }
+    constructor(
+        private readonly prisma: PrismaClient,
+        private readonly usersService: UsersService
+        ) { }
 
-    async saveAdress(data: AdressDTO) {
+    async saveAdress(data: AdressDTO, userId: number) {
 
-        try {
-            const adress = await this.prisma.adress.create({
-                data
-            });
-
-            return adress;
-        } catch (error) {
-            console.log(error)
-            throw new BadRequestException("Não foi possivel inserir o endereço do usuario")
-        }
-
+         await this.usersService.readById(userId)
+        
+         const adress = await this.prisma.adress.create({
+            data
+         });
+        
+         return adress;
     };
 
-    async getAdress() {
+    async getAdress(userId: number) {
         try {
-            const adress = await this.prisma.adress.findMany();
+            const adress = await this.prisma.adress.findMany({
+                where: {
+                 userId
+                }
+            });
             return adress;
         } catch (error) {
             console.log(error)
@@ -35,67 +39,10 @@ export class AdressService {
         }
     };
 
-
-    async updateAdress({ CEP, numero, complemento, ponto_de_referencia, bairro, estado, cidade, telefone_contato, endereco_id, }: AdressUpdateDTO, id: number) {
-
-        try {
-            const AdressExist = await this.prisma.adress.findFirst({
-                where: {
-                    id
-                }
-            });
-
-            if (!AdressExist) throw new BadRequestException("Esse endereço não existe!");
-
-            const newAdress = await this.prisma.adress.update({
-                where: {
-                    id
-                },
-                data: {
-                    CEP,
-                    numero,
-                    complemento,
-                    ponto_de_referencia,
-                    bairro,
-                    estado,
-                    cidade,
-                    telefone_contato,
-                    endereco_id
-                }
-            })
-
-            return { sucess: true }
-        } catch (error) {
-            console.log(error)
-            throw new BadRequestException("Não foi possivel atualizar informações do endereço, por favor verifique os campos e preencha corretamente.")
-        }
-
-    }
-
-
-    async deleteAdress(id: number) {
-
-        try {
-            const AdressExist = await this.prisma.adress.findFirst({
-                where: {
-                    id
-                }
-            });
-
-            if (!AdressExist) throw new BadRequestException("Esse endereço não existe!");
-
-            const adress = await this.prisma.adress.delete({
-                where: {
-                   id:Number(id) 
-                }
-            })
+    async updateAdress() {
         
-
-            return { sucess: true }
-        } catch (error) {
-            console.log(error)
-            throw new BadRequestException("Não foi possivel deletar o endereço, por favor atualize a pagina e tente novamente!")
-        }
-
     }
+
+
+    
 }

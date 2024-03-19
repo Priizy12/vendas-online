@@ -52,5 +52,5 @@ export class AdressDTO {
     @IsNotEmpty()
     @IsNumber()
     @ApiProperty()
-    endereco_id: number;
+    userId: number;
 }

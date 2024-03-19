@@ -46,5 +46,14 @@ export class PaymentService {
 
         return session;
     }
+
+
+    async retrieveCheckoutSession(sessionId: string) {
+        const session = await this.stripe.checkout.sessions.retrieve(sessionId);
+        return {
+            id: session.id,
+             payment_status: session.payment_status
+        };
+    }
 }
 
