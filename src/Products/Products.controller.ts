@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, Put, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, FileTypeValidator, Get, MaxFileSizeValidator, Param, ParseFilePipe, Post, Put, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import { Paramid } from "src/decorators/param-id.decorator";
 import { AuthGuard } from "src/guards/auth.guard";
 import { ProductService } from './Products.service';
@@ -54,10 +54,19 @@ export class ProductController {
     @Roles(Role.Admin)
     @UseInterceptors(FileInterceptor('file'))
     @Post('Image')
-    async photoProduct(@UploadedFile() file: FileDTO, @Body('produtoId') produtoId: string) {
-       return this.FileService.upload(file, Number(produtoId))
+    async photoProduct(@UploadedFile() file: Express.Multer.File) {
+        const fileName = file.originalname;
+        const fileBuffer = file.buffer;
+       return this.FileService.uploadfiles(fileBuffer,fileName)
     }
 
+    @UseGuards(RoleGuard)
+    @Roles(Role.Admin)
+    @Delete('Image/:fileName')
+    async deletePhotoProduct(@Param('fileName') fileName: string) {
+        return this.FileService.deleteFile(fileName);
+        
+    }
 
     @UseGuards(RoleGuard)
     @Roles(Role.Admin)

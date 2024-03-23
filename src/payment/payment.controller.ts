@@ -23,12 +23,4 @@ export class PaymentController {
         };
     }
 
-
-    @UseGuards(AuthGuard)
-    @Get('retrieve-checkout-session/:sessionId')
-    async retrieveCheckoutSession(@Param('sessionId') sessionId: string) {
-        const paymentStatus = await this.paymentService.retrieveCheckoutSession(sessionId);
-        return paymentStatus;
-    }
-
 }

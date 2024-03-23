@@ -90,6 +90,6 @@ export class AdressService {
         } catch (error) {
             console.log(error);
             throw new BadRequestException("não foi possivel deletar endereço, por favor tente novamente.")
-        }
+        } 
     }
 }
