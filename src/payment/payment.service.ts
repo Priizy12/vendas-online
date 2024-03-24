@@ -42,6 +42,7 @@ export class PaymentService {
             mode: 'payment',
             success_url: 'https://example.com/success',
             cancel_url: 'https://example.com/cancel',
+            customer_creation: "if_required"
         });
 
         return session;
