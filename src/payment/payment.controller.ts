@@ -32,17 +32,17 @@ export class PaymentController {
 
         try {
             const sig = req.headers['stripe-signature'];
-            const rawBody = req.body.toString();
-        
+            const rawBody = (req as any).rawBody;
+
             event = this.stripe.webhooks.constructEvent(
-              rawBody,
-              sig,
-              process.env.STRIPE_WEBHOOK_SECRET
+                rawBody,
+                sig,
+                process.env.STRIPE_WEBHOOK_SECRET
             );
-          } catch (err) {
+        } catch (err) {
             console.log(err);
             throw new BadRequestException("nao foi possivel concluir evento");
-          }
+        }
 
 
         if (event.type === 'checkout.session.completed') {
