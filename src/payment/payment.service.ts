@@ -46,18 +46,7 @@ export class PaymentService {
             mode: 'payment',
             success_url: 'https://example.com/success',
             cancel_url: 'https://example.com/cancel',
-            customer_creation: "if_required",
-            metadata: {
-                address_line1: address.CEP,
-                address_city: address.cidade,
-                address_state: address.estado,
-                address_zip: address.numero,
-                address_complement: address.complemento,
-                address_reference_point: address.ponto_de_referencia,
-                address_neighborhood: address.bairro,
-                contact_phone: address.telefone_contato,
-            },
-
+            customer_creation: "if_required"
         });
 
         return session;
