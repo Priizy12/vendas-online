@@ -34,7 +34,7 @@ export class PaymentController {
             event = this.stripe.webhooks.constructEvent(
                 body,
                 req.headers['stripe-signature'],
-                process.env.STRIPE_WEBHOOK_SECRET
+                String(process.env.STRIPE_WEBHOOK_SECRET)
             );
         } catch (err) {
             throw new BadRequestException("nao foi possivel concluir evento", err)
