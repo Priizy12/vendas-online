@@ -27,19 +27,23 @@ export class PaymentController {
     }
 
     @Post('webhook')
-    async handleWebhook(@Req()req: Request) {
+    async handleWebhook(@Req() req: Request) {
         let event: Stripe.Event;
 
         try {
+            const sig = req.headers['stripe-signature'];
+            const rawBody = req.body.toString();
+
             event = this.stripe.webhooks.constructEvent(
-                req.body.toString(),
-                req.headers['stripe-signature'],
-                String(process.env.STRIPE_WEBHOOK_SECRET)
+                rawBody,
+                sig,
+                process.env.STRIPE_WEBHOOK_SECRET
             );
-        } catch (error) {
-            console.log(error)
-            throw new BadRequestException("nao foi possivel concluir evento")
+        } catch (err) {
+            console.log(err);
+            throw new BadRequestException("nao foi possivel concluir evento");
         }
+
 
         if (event.type === 'checkout.session.completed') {
             const session = event.data.object as Stripe.Checkout.Session;
