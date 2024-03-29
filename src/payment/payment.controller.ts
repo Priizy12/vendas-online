@@ -36,8 +36,9 @@ export class PaymentController {
                 req.headers['stripe-signature'],
                 String(process.env.STRIPE_WEBHOOK_SECRET)
             );
-        } catch (err) {
-            throw new BadRequestException("nao foi possivel concluir evento", err)
+        } catch (error) {
+            console.log(error)
+            throw new BadRequestException("nao foi possivel concluir evento")
         }
 
         if (event.type === 'checkout.session.completed') {
@@ -46,15 +47,6 @@ export class PaymentController {
             const sessionWithLineItems = await this.stripe.checkout.sessions.retrieve(session.id, {
                 expand: ['line_items'],
             });
-
-            const products = sessionWithLineItems.line_items.data.map(item => {
-                return {
-                    name: item.description,
-                    price: item.amount_total,
-                    quantity: item.quantity,
-                };
-            });
-
 
             const address = await this.prisma.adress.findFirst({
                 where: { userId: Number(session.customer) },
