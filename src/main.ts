@@ -2,12 +2,11 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-
+import * as express from 'express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {cors: {
-
-  }});
+  const app = await NestFactory.create(AppModule);
+  app.use('payments/webhook', express.raw({ type: 'application/json' }));
 
   const config = new DocumentBuilder()
     .setTitle('Vendas-online-api')
