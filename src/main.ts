@@ -5,7 +5,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {cors: {
+    origin: true
+  }});
 
   const config = new DocumentBuilder()
     .setTitle('Vendas-online-api')
@@ -18,7 +20,9 @@ async function bootstrap() {
   SwaggerModule.setup('swagger', app, document);
 
 
-  app.enableCors();
+  app.enableCors({
+    origin: 'Acess-Control-Allow-Origin'
+  });
   app.useGlobalPipes(new ValidationPipe())
 
 

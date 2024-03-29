@@ -14,6 +14,7 @@ import { AdressModule } from './Adress/adress.module';
 import { FileModule } from './file/file.module';
 import { PaymentModule } from './payment/payment.module';
 import { CartModule } from './cart/cart.module';
+import { OrderModule } from './order-product/order.module';
 
 
 
@@ -33,6 +34,7 @@ import { CartModule } from './cart/cart.module';
     AdressModule,
     PaymentModule,
     FileModule,
+    OrderModule,
     forwardRef(() => AuthModule),
     ConfigModule.forRoot({
       isGlobal: true

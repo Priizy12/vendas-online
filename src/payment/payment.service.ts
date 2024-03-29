@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import Stripe from 'stripe';
 import { CartService } from '../cart/cart.service';
+import { PrismaClient } from '@prisma/client';
+
 
 
 @Injectable()
@@ -9,17 +11,19 @@ export class PaymentService {
     private stripe: Stripe;
 
     constructor(
-        private readonly cartService: CartService) {
+        private readonly cartService: CartService, private readonly prisma: PrismaClient) {
         this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
             apiVersion: '2023-10-16',
         });
     }
 
     async createCheckoutSession(userId: number) {
-
         const cart = this.cartService.findCartByUserId(userId)
         const produtos = (await cart).carrinho
 
+        const address = await this.prisma.adress.findFirst({
+            where: { userId }
+        });
 
         const line_items = produtos.map(item => {
             return {
@@ -42,11 +46,25 @@ export class PaymentService {
             mode: 'payment',
             success_url: 'https://example.com/success',
             cancel_url: 'https://example.com/cancel',
-            customer_creation: "if_required"
+            customer_creation: "if_required",
+            metadata: {
+                address_line1: address.CEP,
+                address_city: address.cidade,
+                address_state: address.estado,
+                address_zip: address.numero,
+                address_complement: address.complemento,
+                address_reference_point: address.ponto_de_referencia,
+                address_neighborhood: address.bairro,
+                contact_phone: address.telefone_contato,
+            },
+
         });
 
         return session;
     }
+
+
+  
 
 
 }

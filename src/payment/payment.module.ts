@@ -6,6 +6,8 @@ import { CartProductModule } from "../cartProduct/cart_product.module";
 import { CartModule } from "../cart/cart.module";
 import { AuthModule } from "../auth/auth.module";
 import { UsersModule } from "../users/users.module";
+import { PrismaService } from "../database/prisma.service";
+
 
 
 
@@ -13,7 +15,7 @@ import { UsersModule } from "../users/users.module";
 @Module({
     imports: [CartProductModule, CartModule, AuthModule, UsersModule],
     controllers: [PaymentController],
-    providers: [PaymentService, PrismaClient],
+    providers: [PaymentService, PrismaClient, PrismaService],
     exports:[PaymentService]
 })
 
