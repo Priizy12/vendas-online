@@ -26,7 +26,7 @@ export class PaymentController {
         };
     }
 
-    @Post()
+    @Post('webhook')
     async handleWebhook(@Body() body: any, req: Request) {
         let event: Stripe.Event;
 

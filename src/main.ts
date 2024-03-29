@@ -20,9 +20,7 @@ async function bootstrap() {
   SwaggerModule.setup('swagger', app, document);
 
 
-  app.enableCors({
-    origin: 'Acess-Control-Allow-Origin'
-  });
+  app.enableCors()
   app.useGlobalPipes(new ValidationPipe())
 
 
