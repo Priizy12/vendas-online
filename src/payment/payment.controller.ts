@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Post, UseGuards } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Post, Req, UseGuards } from "@nestjs/common";
 import { PaymentService } from "./payment.service";
 import { User } from "../decorators/user.decorator";
 import { AuthGuard } from "../guards/auth.guard";
@@ -27,7 +27,7 @@ export class PaymentController {
     }
 
     @Post('webhook')
-    async handleWebhook(@Body() body: any, req: Request) {
+    async handleWebhook(@Body() body: any, @Req()req: Request) {
         let event: Stripe.Event;
 
         try {
