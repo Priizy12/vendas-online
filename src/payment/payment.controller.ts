@@ -48,10 +48,6 @@ export class PaymentController {
         if (event.type === 'checkout.session.completed') {
             const session = event.data.object as Stripe.Checkout.Session;
 
-            const sessionWithLineItems = await this.stripe.checkout.sessions.retrieve(session.id, {
-                expand: ['line_items'],
-            });
-
             const address = await this.prisma.adress.findFirst({
                 where: { userId: Number(session.customer) },
             });

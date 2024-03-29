@@ -6,7 +6,7 @@ import * as bodyparser from 'body-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.use('/webhook', bodyparser.raw({ type: 'application/json' }));
+  app.use('payments/webhook', bodyparser.raw({ type: 'application/json' }));
 
   const config = new DocumentBuilder()
     .setTitle('Vendas-online-api')
