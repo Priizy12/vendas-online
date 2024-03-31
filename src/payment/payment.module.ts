@@ -20,4 +20,8 @@ import { RawBodyMiddleware } from "../middlewares/raw-body.middleware";
     exports:[PaymentService]
 })
 
-export class PaymentModule {}
+export class PaymentModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(RawBodyMiddleware).forRoutes('payments/webhook')
+    }
+}
