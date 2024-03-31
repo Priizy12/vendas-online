@@ -3,7 +3,6 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as bodyparser from 'body-parser';
-import { RawBodyMiddleware } from './middlewares/raw-body.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,9 +18,11 @@ async function bootstrap() {
 
   SwaggerModule.setup('swagger', app, document);
 
-  app.use(RawBodyMiddleware);
-
-  app.enableCors()
+  app.enableCors({
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    origin: 'https://projeto-vendas.vercel.app/',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+  })
   app.useGlobalPipes(new ValidationPipe())
 
 
