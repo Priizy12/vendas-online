@@ -6,9 +6,6 @@ import { PrismaService } from "../database/prisma.service";
 import Stripe from "stripe";
 
 
-
-
-
 @Controller('payments')
 export class PaymentController {
 
@@ -26,6 +23,7 @@ export class PaymentController {
         };
     }
 
+    
     @Post('webhook')
     async handleWebhook(@Req() req: Request) {
         let event: Stripe.Event;
