@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { DeleteObjectCommand, PutObjectCommand, S3Client, S3ClientConfig } from "@aws-sdk/client-s3";
 import { Credentials } from "aws-sdk";
+import { PrismaClient } from '@prisma/client';
 
 
 @Injectable()
@@ -10,7 +11,7 @@ export class FileService {
     s3: S3Client;
 
 
-    constructor() {
+    constructor(private readonly prisma: PrismaClient) {
         const config: S3ClientConfig = {
             region: 'us-east-1',
             credentials: {
@@ -22,7 +23,7 @@ export class FileService {
     }
 
 
-    async uploadfiles(file: Buffer, fileName: string) {
+    async uploadfiles(file: Buffer, fileName: string, produtoId: number) {
         const params = {
             Bucket: this.AWS_BUCKET_S3,
             Key: fileName,
@@ -32,8 +33,16 @@ export class FileService {
 
         try {
             const response = await this.s3.send(new PutObjectCommand(params));
-            return response;
+            const imageUrl = `https://${this.AWS_BUCKET_S3}.s3.amazonaws.com/${fileName}`;
 
+             await this.prisma.imageProduto.create({
+                data: {
+                    url: imageUrl,
+                    produtoId: Number(produtoId)
+                }
+            });
+
+            return response;
         } catch (error) {
             console.log(error)
             throw new BadRequestException("não foi possivel realizar o Upload da imagem do produto, tente novamente")
@@ -41,13 +50,18 @@ export class FileService {
     }
 
 
-    async deleteFile(fileName: string) {
+    async deleteFile(fileName: string, produtoId: number) {
         const params = {
             Bucket: this.AWS_BUCKET_S3,
-            Key: fileName 
+            Key: fileName
         };
         try {
             const response = await this.s3.send(new DeleteObjectCommand(params));
+            await this.prisma.imageProduto.delete({
+                where: {
+                    id: produtoId
+                }
+            })
             return response;
         } catch (error) {
             console.log(error)

@@ -53,18 +53,18 @@ export class ProductController {
     @UseGuards(RoleGuard)
     @Roles(Role.Admin)
     @UseInterceptors(FileInterceptor('file'))
-    @Post('Image')
-    async photoProduct(@UploadedFile() file: Express.Multer.File) {
+    @Post('Image/:produtoId')
+    async photoProduct(@UploadedFile() file: Express.Multer.File, @Param('produtoId') produtoId: number) {
         const fileName = file.originalname;
         const fileBuffer = file.buffer;
-       return this.FileService.uploadfiles(fileBuffer,fileName)
+       return this.FileService.uploadfiles(fileBuffer, fileName, produtoId);
     }
 
     @UseGuards(RoleGuard)
     @Roles(Role.Admin)
-    @Delete('Image/:fileName')
-    async deletePhotoProduct(@Param('fileName') fileName: string) {
-        return this.FileService.deleteFile(fileName);
+    @Delete('Image/:fileName/:id')
+    async deletePhotoProduct(@Param('fileName') fileName: string, @Paramid() produtoId: number) {
+        return this.FileService.deleteFile(fileName, produtoId);
         
     }
 

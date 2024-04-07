@@ -15,7 +15,16 @@ export class ProductService {
 
     async get() {
         try {
-            const Produtos = await this.prisma.produtos.findMany();
+            const Produtos = await this.prisma.produtos.findMany({
+                include: {
+                    imagem: {
+                        select: {
+                            url: true,
+                            produtoId: true
+                        }
+                    }
+                }
+            });
             return {
                 message: "Lista de Produtos",
                 Produtos
