@@ -6,7 +6,7 @@ import * as rawBody from 'raw-body';
 export class RawBodyMiddleware implements NestMiddleware {
   async use(req: Request, res: Response, next: NextFunction) {
     if (req.is('application/json')) {
-     const raw = await rawBody(req);
+     req.body = await rawBody(req, {encoding: 'utf8'});
     }
     next();
   }
