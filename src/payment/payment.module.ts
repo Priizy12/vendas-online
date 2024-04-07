@@ -7,6 +7,7 @@ import { CartModule } from "../cart/cart.module";
 import { AuthModule } from "../auth/auth.module";
 import { UsersModule } from "../users/users.module";
 import { PrismaService } from "../database/prisma.service";
+import { RawBodyMiddleware } from "../middlewares/raw.middleware";
 
 
 
@@ -18,4 +19,10 @@ import { PrismaService } from "../database/prisma.service";
     exports:[PaymentService]
 })
 
-export class PaymentModule {}
+export class PaymentModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+          .apply(RawBodyMiddleware)
+          .forRoutes('payments/webhook');
+      }
+}
