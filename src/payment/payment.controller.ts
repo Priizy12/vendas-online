@@ -19,8 +19,7 @@ export class PaymentController {
     async createCheckoutSession(@User() userId: number) {
         const session = await this.paymentService.createCheckoutSession(userId);
         return {
-            url: session.url,
-            sessionId: session.id
+            url: session.url
         };
     }
 
@@ -31,7 +30,7 @@ export class PaymentController {
 
         try {
             const sig = req.headers['stripe-signature'];
-            const rawBody = (req as any).rawBody as Buffer;
+            const rawBody = (req as any).rawBody as Buffer
 
             event = this.stripe.webhooks.constructEvent(
                 rawBody,

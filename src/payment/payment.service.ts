@@ -1,3 +1,5 @@
+
+
 import { Injectable } from '@nestjs/common';
 import Stripe from 'stripe';
 import { CartService } from '../cart/cart.service';
@@ -11,19 +13,18 @@ export class PaymentService {
     private stripe: Stripe;
 
     constructor(
-        private readonly cartService: CartService, private readonly prisma: PrismaClient) {
+        private readonly cartService: CartService
+    ) {
         this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
             apiVersion: '2023-10-16',
         });
     }
 
     async createCheckoutSession(userId: number) {
+
         const cart = this.cartService.findCartByUserId(userId)
         const produtos = (await cart).carrinho
 
-        const address = await this.prisma.adress.findFirst({
-            where: { userId }
-        });
 
         const line_items = produtos.map(item => {
             return {
@@ -54,7 +55,7 @@ export class PaymentService {
     }
 
 
-  
+
 
 
 }
