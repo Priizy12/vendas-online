@@ -54,6 +54,10 @@ export class PaymentController {
                 where: { userId: Number(session.customer) },
             });
 
+            if (!address || !cart) {
+                throw new BadRequestException("Endereço ou carrinho não encontrado");
+              }
+
             const data = {
                 adressId: address.id,
                 cartId: cart.id,
