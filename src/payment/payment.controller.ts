@@ -30,7 +30,7 @@ export class PaymentController {
 
         try {
             const sig = req.headers['stripe-signature'];
-            const rawBody = req.body.toString()
+            const rawBody = req['rawBody'];
 
             event = this.stripe.webhooks.constructEvent(
                 rawBody,
