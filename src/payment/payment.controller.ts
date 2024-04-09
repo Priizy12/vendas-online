@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Post, Req, UseGuards } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Post, RawBodyRequest, Req, UseGuards } from "@nestjs/common";
 import { PaymentService } from "./payment.service";
 import { User } from "../decorators/user.decorator";
 import { AuthGuard } from "../guards/auth.guard";
@@ -25,12 +25,12 @@ export class PaymentController {
 
     
     @Post('webhook')
-    async handleWebhook(@Req() req: Request) {
+    async handleWebhook(@Req() req: RawBodyRequest<Request>) {
         let event: Stripe.Event;
 
         try {
             const sig = req.headers['stripe-signature'];
-            const rawBody = req.body.toString()
+            const rawBody = req.rawBody
 
             event = this.stripe.webhooks.constructEvent(
                 rawBody,
