@@ -8,6 +8,7 @@ import bodyParser from 'body-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  
 
   const config = new DocumentBuilder()
     .setTitle('Vendas-online-api')
