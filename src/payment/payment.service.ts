@@ -48,6 +48,9 @@ export class PaymentService {
             success_url: 'https://example.com/success',
             cancel_url: 'https://example.com/cancel',
             customer_creation: "if_required",
+            metadata: {
+                userId: userId.toString()
+            }
 
         });
 

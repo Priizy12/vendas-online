@@ -39,27 +39,22 @@ export class PaymentController {
             );
         } catch (err) {
             console.log(err);
-            throw new BadRequestException("nao foi possivel concluir evento");
+            throw new BadRequestException("nao foi possivel pegar as informacoes para continuar com o evento");
         }
 
 
         if (event.type === 'checkout.session.completed') {
             const session = event.data.object as Stripe.Checkout.Session;
 
-            const address = await this.prisma.adress.findFirst({
-                where: { userId: Number(session.customer) },
-            });
-
             const cart = await this.prisma.cart.findFirst({
                 where: { userId: Number(session.customer) },
             });
 
-            if (!address || !cart) {
+            if (!cart) {
                 throw new BadRequestException("Endereço ou carrinho não encontrado");
               }
 
             const data = {
-                adressId: address.id,
                 cartId: cart.id,
                 userId: Number(session.customer)
             };

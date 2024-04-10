@@ -82,8 +82,6 @@ model card_produtos {
 
 model Order {
   id       Int    @id @default(autoincrement())
-  adressId Int
-  adress   Adress @relation(fields: [adressId], references: [id])
   cartId   Int
   carrinho cart   @relation(fields: [cartId], references: [id])
   userId   Int
@@ -103,5 +101,4 @@ model Adress {
   userId              Int
 
   user  users   @relation(fields: [userId], references: [id])
-  Order Order[]
 }
