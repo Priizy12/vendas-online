@@ -52,7 +52,8 @@ export class PaymentController {
 
             const data = {
                 userId: Number(session.metadata.userId),
-                cartId: Number(session.metadata.cartId)
+                cartId: Number(session.metadata.cartId),
+                adressId: Number(session.metadata.adressId)
             }
 
             if(!data.userId && !data.cartId) {

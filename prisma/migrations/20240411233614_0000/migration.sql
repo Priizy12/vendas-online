@@ -21,6 +21,7 @@ CREATE TABLE "Produtos" (
     "preco" DOUBLE PRECISION NOT NULL,
     "descricao" VARCHAR(125) NOT NULL,
     "estoque" INTEGER NOT NULL,
+    "oferta" BOOLEAN,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "categoryId" INTEGER NOT NULL,
@@ -67,6 +68,15 @@ CREATE TABLE "card_produtos" (
 );
 
 -- CreateTable
+CREATE TABLE "Order" (
+    "id" SERIAL NOT NULL,
+    "cartId" INTEGER NOT NULL,
+    "userId" INTEGER NOT NULL,
+
+    CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Adress" (
     "id" SERIAL NOT NULL,
     "CEP" TEXT NOT NULL,
@@ -105,6 +115,12 @@ ALTER TABLE "card_produtos" ADD CONSTRAINT "card_produtos_cartId_fkey" FOREIGN K
 
 -- AddForeignKey
 ALTER TABLE "card_produtos" ADD CONSTRAINT "card_produtos_produtoId_fkey" FOREIGN KEY ("produtoId") REFERENCES "Produtos"("id_produto") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Order" ADD CONSTRAINT "Order_cartId_fkey" FOREIGN KEY ("cartId") REFERENCES "card_produtos"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Order" ADD CONSTRAINT "Order_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Adress" ADD CONSTRAINT "Adress_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

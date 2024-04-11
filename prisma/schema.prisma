@@ -21,8 +21,8 @@ model users {
   updatedAt DateTime @updatedAt
 
   adress Adress[]
-  cart  cart[]
-  Order Order[]
+  cart   cart[]
+  Order  Order[]
 }
 
 model Produtos {
@@ -66,7 +66,6 @@ model cart {
   updatedAt DateTime @updatedAt
 
   carrinho card_produtos[]
-  Order    Order[]
 }
 
 model card_produtos {
@@ -77,16 +76,19 @@ model card_produtos {
 
   carrinho cart     @relation(fields: [cartId], references: [id])
   produtos Produtos @relation(fields: [produtoId], references: [id_produto])
+  Order    Order[]
 }
 
 model Order {
-  id       Int    @id @default(autoincrement())
+  id       Int           @id @default(autoincrement())
   cartId   Int
-  carrinho cart   @relation(fields: [cartId], references: [id])
+  carrinho card_produtos @relation(fields: [cartId], references: [id])
   userId   Int
-  users    users  @relation(fields: [userId], references: [id])
+  users    users         @relation(fields: [userId], references: [id])
+  adressId Int
+  adress   Adress        @relation(fields: [adressId], references: [id])
 }
- 
+
 model Adress {
   id                  Int    @id @default(autoincrement())
   CEP                 String
@@ -100,4 +102,5 @@ model Adress {
   userId              Int
 
   user  users   @relation(fields: [userId], references: [id])
+  Order Order[]
 }
