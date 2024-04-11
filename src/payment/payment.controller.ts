@@ -33,7 +33,7 @@ export class PaymentController {
             const rawBody = req.rawBody
 
             event = this.stripe.webhooks.constructEvent(
-                rawBody.toString(),
+                rawBody,
                 sig,
                 String(process.env.STRIPE_WEBHOOK_SECRET)
             );
