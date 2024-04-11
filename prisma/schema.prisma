@@ -21,7 +21,6 @@ model users {
   updatedAt DateTime @updatedAt
 
   adress Adress[]
-
   cart  cart[]
   Order Order[]
 }

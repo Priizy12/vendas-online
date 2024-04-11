@@ -1,4 +1,4 @@
-import { BadRequestException, Controller, Post,  RawBodyRequest,  Req, UseGuards } from "@nestjs/common";
+import { BadRequestException, Controller, NotFoundException, Post,  RawBodyRequest,  Req, UseGuards } from "@nestjs/common";
 import { PaymentService } from "./payment.service";
 import { User } from "../decorators/user.decorator";
 import { AuthGuard } from "../guards/auth.guard";
@@ -24,6 +24,8 @@ export class PaymentController {
     }
 
     
+
+   
     @Post('webhook')
     async handleWebhook(@Req() req: Request) {
         let event: Stripe.Event;
@@ -46,20 +48,21 @@ export class PaymentController {
         if (event.type === 'checkout.session.completed') {
             const session = event.data.object as Stripe.Checkout.Session;
 
-            const cart = await this.prisma.cart.findFirst({
-                where: { userId: Number(session.customer) },
-            });
-
-            if (!cart) {
-                throw new BadRequestException("Endereço ou carrinho não encontrado");
-              }
-
             const data = {
-                cartId: cart.id,
-                userId: Number(session.customer)
-            };
+                userId: Number(session.metadata.userId),
+                cartId: Number(session.line_items)
+            }
 
-            await this.prisma.order.create({ data });
+            if(!data.userId && !data.cartId) {
+                throw new NotFoundException("Usuario ou produtos nao encontrados.")
+            }
+
+
+            await this.prisma.order.create({
+                data
+            })
+
+         
         }
 
         return { sucess: true }
