@@ -25,12 +25,12 @@ export class PaymentController {
 
     
     @Post('webhook')
-    async handleWebhook(@Req() req: RawBodyRequest<Request>) {
+    async handleWebhook(@Req() req: Request) {
         let event: Stripe.Event;
 
         try {
             const sig = req.headers['stripe-signature'];
-            const rawBody = req.rawBody
+            const rawBody = req.body.toString()
 
             event = this.stripe.webhooks.constructEvent(
                 rawBody,
