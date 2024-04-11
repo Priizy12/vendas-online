@@ -48,9 +48,11 @@ export class PaymentController {
         if (event.type === 'checkout.session.completed') {
             const session = event.data.object as Stripe.Checkout.Session;
 
+          
+
             const data = {
                 userId: Number(session.metadata.userId),
-                cartId: Number(session.line_items)
+                cartId: Number(session.metadata.cartId)
             }
 
             if(!data.userId && !data.cartId) {

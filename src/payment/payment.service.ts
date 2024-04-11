@@ -48,7 +48,8 @@ export class PaymentService {
             cancel_url: 'https://example.com/cancel',
             customer_creation: "if_required",
             metadata: {
-                userId
+                userId,
+                cartId: (await cart).id
             }
         });
 
