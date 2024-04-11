@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Post, RawBodyRequest, Req, UseGuards } from "@nestjs/common";
+import { BadRequestException, Controller, Post,  RawBodyRequest,  Req, UseGuards } from "@nestjs/common";
 import { PaymentService } from "./payment.service";
 import { User } from "../decorators/user.decorator";
 import { AuthGuard } from "../guards/auth.guard";
