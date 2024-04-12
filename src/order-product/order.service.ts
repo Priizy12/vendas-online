@@ -23,6 +23,19 @@ export class OrderService {
                         email: true
                     }
                 },
+                adress: {
+                    select: {
+                        estado: true,
+                        cidade: true,
+                        bairro: true,
+                        Rua: true,
+                        numero: true,
+                        CEP: true,
+                        telefone_contato: true,
+                        complemento: true,
+                        ponto_de_referencia: true
+                    }
+                },
                 carrinho: {
                     select: {
                         amount: true,
@@ -32,9 +45,9 @@ export class OrderService {
                                 preco: true,
                             }
                         }
-                    }
-                }
+                    },
 
+                }
             }
         });
         return products;

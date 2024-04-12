@@ -99,6 +99,7 @@ model Adress {
   estado              String
   cidade              String
   telefone_contato    String
+  Rua                 String
   userId              Int
 
   user  users   @relation(fields: [userId], references: [id])

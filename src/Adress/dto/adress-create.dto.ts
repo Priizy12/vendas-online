@@ -53,4 +53,10 @@ export class AdressDTO {
     @IsNumber()
     @ApiProperty()
     userId: number;
+
+
+    @IsNotEmpty()
+    @IsString()
+    @ApiProperty()
+    Rua: string;
 }

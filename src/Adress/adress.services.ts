@@ -39,7 +39,7 @@ export class AdressService {
         }
     };
 
-    async updateAdress({ CEP, bairro, cidade, complemento, estado, numero, ponto_de_referencia, telefone_contato }: AdressDTO, userId: number) {
+    async updateAdress({ CEP, bairro, cidade, complemento, estado, numero, ponto_de_referencia, telefone_contato, Rua}: AdressDTO, userId: number) {
 
         const user = await this.usersService.readById(userId);
 
@@ -56,6 +56,7 @@ export class AdressService {
                     numero,
                     ponto_de_referencia,
                     telefone_contato,
+                    Rua,
                     userId
                 }
             });
