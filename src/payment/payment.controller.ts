@@ -23,9 +23,6 @@ export class PaymentController {
         };
     }
 
-    
-
-   
     @Post('webhook')
     async handleWebhook(@Req() req: Request) {
         let event: Stripe.Event;
@@ -48,8 +45,6 @@ export class PaymentController {
         if (event.type === 'checkout.session.completed') {
             const session = event.data.object as Stripe.Checkout.Session;
 
-          
-
             const data = {
                 userId: Number(session.metadata.userId),
                 cartId: Number(session.metadata.cartId),
@@ -58,9 +53,8 @@ export class PaymentController {
 
             if(!data.userId && !data.cartId) {
                 throw new NotFoundException("Usuario ou produtos nao encontrados.")
-            }
-
-
+            } 
+            
             await this.prisma.order.create({
                 data
             })

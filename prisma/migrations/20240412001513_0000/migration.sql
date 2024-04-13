@@ -72,6 +72,7 @@ CREATE TABLE "Order" (
     "id" SERIAL NOT NULL,
     "cartId" INTEGER NOT NULL,
     "userId" INTEGER NOT NULL,
+    "adressId" INTEGER NOT NULL,
 
     CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
 );
@@ -87,6 +88,7 @@ CREATE TABLE "Adress" (
     "estado" TEXT NOT NULL,
     "cidade" TEXT NOT NULL,
     "telefone_contato" TEXT NOT NULL,
+    "Rua" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
 
     CONSTRAINT "Adress_pkey" PRIMARY KEY ("id")
@@ -121,6 +123,9 @@ ALTER TABLE "Order" ADD CONSTRAINT "Order_cartId_fkey" FOREIGN KEY ("cartId") RE
 
 -- AddForeignKey
 ALTER TABLE "Order" ADD CONSTRAINT "Order_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Order" ADD CONSTRAINT "Order_adressId_fkey" FOREIGN KEY ("adressId") REFERENCES "Adress"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Adress" ADD CONSTRAINT "Adress_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
