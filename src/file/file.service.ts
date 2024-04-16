@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { DeleteObjectCommand, PutObjectCommand, S3Client, S3ClientConfig } from "@aws-sdk/client-s3";
 import { Credentials } from "aws-sdk";
 import { PrismaClient } from '@prisma/client';
@@ -35,12 +35,23 @@ export class FileService {
             const response = await this.s3.send(new PutObjectCommand(params));
             const imageUrl = `https://${this.AWS_BUCKET_S3}.s3.amazonaws.com/${fileName}`;
 
-             await this.prisma.imageProduto.create({
+
+            const idProduto = await this.prisma.imageProduto.findFirst({
+                where: {
+                    produtoId
+                }
+            });
+
+             if(!idProduto) throw new NotFoundException("Produto não encontrado /ou produto não existe.")
+
+            await this.prisma.imageProduto.create({
                 data: {
                     url: imageUrl,
                     produtoId: Number(produtoId)
                 }
             });
+
+
 
             return response;
         } catch (error) {
