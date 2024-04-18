@@ -1,16 +1,39 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
-import { Stripe } from 'stripe';
+import { Body, Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
+
 import { OrderService } from './order.service';
+import { AuthGuard } from '../guards/auth.guard';
+import { Roles } from '../decorators/role.decorator';
+import { RoleGuard } from '../guards/role.guard';
+import { Role } from '../enums/role.enum';
+import { Paramid } from '../decorators/param-id.decorator';
+
+@UseGuards(AuthGuard, RoleGuard)
 
 @Controller('Order')
 export class OrderController {
-  constructor(private readonly orderService: OrderService) {}
+  constructor(private readonly orderService: OrderService) { }
 
 
+  
+  @Roles(Role.Admin)
   @Get()
   async getOrder() {
-      return this.orderService.getProducts();
+    return this.orderService.getOrderProducts();
+  }
+
+
+  @Roles(Role.Admin)
+  @Get('User/:userId')
+  async getOrderByUser(@Param('userId') userId: number) {
+    return this.orderService.getOrderProductsByUser(userId)
   }
 
  
+  @Roles(Role.Admin)
+  @Patch(":id")
+  async UpdateDeliveredProduct( @Param('id') id: number, @Body() Delivered: boolean,) {
+      return this.orderService.DeliveredProduct(Delivered, id);
+  }
+
+
 }

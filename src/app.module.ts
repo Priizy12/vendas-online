@@ -41,8 +41,10 @@ import { OrderModule } from './order-product/order.module';
     }),
     MailerModule.forRoot({
       transport: {
-        host: 'smtp.ethereal.email',
-        port: 587,
+        service: 'Gmail',
+        host: 'smtp.gmail.email',
+        port: 465,
+        secure: true,
         auth: {
           user: 'mertie35@ethereal.email',
           pass: 'K86wZVKCPtbUE276P6'
