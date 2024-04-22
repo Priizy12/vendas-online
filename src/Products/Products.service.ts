@@ -48,6 +48,14 @@ export class ProductService {
             const Product = await this.prisma.produtos.findUnique({
               where:{
                 id_produto: Number(id_produto)
+              },
+              include: {
+                imagem: {
+                    select: {
+                        url: true,
+                        produtoId: true
+                    }
+                }
               }
         });
             return Product
