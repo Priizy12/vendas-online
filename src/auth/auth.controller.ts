@@ -41,6 +41,7 @@ export class AuthController {
         return this.AuthService.forget(email)
     }
 
+    @UseGuards(AuthGuard)
     @Post('UpdatePass')
     async updatePass(@Body() {senha, token}: AuthUpdateDTO, id: number) {
         return this.AuthService.updatePass( senha, token, id)
