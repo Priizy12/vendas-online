@@ -36,9 +36,9 @@ export class FileService {
             const imageUrl = `https://${this.AWS_BUCKET_S3}.s3.amazonaws.com/${fileName}`;
 
 
-            const idProduto = await this.prisma.imageProduto.findFirst({
+            const idProduto = await this.prisma.produtos.findFirst({
                 where: {
-                    produtoId
+                    id_produto: produtoId
                 }
             });
 
