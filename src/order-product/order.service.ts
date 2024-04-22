@@ -161,8 +161,6 @@ export class OrderService {
             }
         })
         
-
-
        
        const Template = {
         name: user.nome,

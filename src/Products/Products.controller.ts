@@ -1,5 +1,4 @@
-import { Body, Controller, Delete, FileTypeValidator, Get, MaxFileSizeValidator, Param, ParseFilePipe, Post, Put, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
-import { Paramid } from "src/decorators/param-id.decorator";
+import { Body, Controller, Delete, Get,  Param,  Post,  Put, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common"
 import { AuthGuard } from "src/guards/auth.guard";
 import { ProductService } from './Products.service';
 import { CreateProductDto } from "./dto/create-product.dto";
@@ -7,10 +6,11 @@ import { UpdateProductDto } from "./dto/update-product.dto";
 import { ApiTags } from "@nestjs/swagger";
 import { FileService } from "../file/file.service";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { FileDTO } from "./dto/file-product.dto";
 import { RoleGuard } from "../guards/role.guard";
 import { Roles } from "../decorators/role.decorator";
 import { Role } from "../enums/role.enum";
+import { Paramid } from "../decorators/param-id.decorator";
+import { ParamProdutoId } from "../decorators/param-produtoId.decorator";
 
 
 @UseGuards(AuthGuard)
@@ -54,7 +54,7 @@ export class ProductController {
     @Roles(Role.Admin)
     @UseInterceptors(FileInterceptor('file'))
     @Post('Image/:produtoId')
-    async photoProduct(@UploadedFile() file: Express.Multer.File, @Param('produtoId') produtoId: number) {
+    async photoProduct(@UploadedFile() file: Express.Multer.File, @ParamProdutoId() produtoId: number) {
         const fileName = file.originalname;
         const fileBuffer = file.buffer;
        return this.FileService.uploadfiles(fileBuffer, fileName, produtoId);

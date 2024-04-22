@@ -10,7 +10,7 @@ export class PaymentService {
 
     constructor(
         private readonly cartService: CartService,
-       
+
     ) {
         this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
             apiVersion: '2023-10-16',
@@ -22,7 +22,7 @@ export class PaymentService {
         const cart = this.cartService.findCartByUserId(userId)
         const produtos = (await cart).carrinho
 
-       
+
 
         const line_items = produtos.map(item => {
             return {
@@ -31,7 +31,7 @@ export class PaymentService {
                     product_data: {
                         name: item.produtos.nome_produto,
                         description: item.produtos.descricao,
-                        image: item.produtos.imagem
+                        image: item.produtos.imagem.length > 0 ? item.produtos.imagem[0].url : undefined
                     },
                     unit_amount: item.produtos.preco * 100,
                 },
