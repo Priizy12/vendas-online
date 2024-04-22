@@ -74,6 +74,7 @@ CREATE TABLE "Order" (
     "userId" INTEGER NOT NULL,
     "adressId" INTEGER NOT NULL,
     "Delivered" BOOLEAN NOT NULL DEFAULT false,
+    "trackingCode" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
