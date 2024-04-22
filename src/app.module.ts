@@ -46,8 +46,8 @@ import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
         port: 465,
         secure: true,
         auth: {
-          user: 'ecogreencosmetico@gmail.com',
-          pass: 'kjie szxk oaha meen'
+          user: process.env.EMAIL_MAILER,
+          pass: process.env.PASS_MAILER
         }
       },
       template: {

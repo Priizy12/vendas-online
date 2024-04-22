@@ -2,6 +2,9 @@ import { BadRequestException, Injectable, NotFoundException } from "@nestjs/comm
 import { PrismaClient } from '@prisma/client';
 import { MailerService } from "@nestjs-modules/mailer";
 import { UsersService } from "../users/users.service";
+import { SendtrackingDto } from "./dtos/send-tracking-dto";
+import { CartService } from "../cart/cart.service";
+import { ProductService } from "../Products/Products.service";
 
 
 
@@ -15,6 +18,8 @@ export class OrderService {
         private readonly prisma: PrismaClient,
         private readonly mailer: MailerService,
         private readonly users: UsersService,
+        private readonly product: ProductService
+       
     ) { }
 
 
@@ -72,7 +77,7 @@ export class OrderService {
             });
 
             if (!user) {
-               throw new NotFoundException("Nao existe pedidos para esse usuario");
+                throw new NotFoundException("Nao existe pedidos para esse usuario");
             }
 
             const OrderByUser = await this.prisma.order.findFirst({
@@ -147,36 +152,36 @@ export class OrderService {
         }
     }
 
-    async SendTrackingCode( trackingCode: string, userId: number) {
-       const order = await this.getOrderProductsByUser(userId);
+    async SendTrackingCode(data: SendtrackingDto, userId: number) {
+        const order = await this.getOrderProductsByUser(userId);
+        const user = await this.users.readById(order.userId);
 
-       const user = await this.users.readById(order.userId);
+        try {
+            await this.prisma.order.update({
+                where: {
+                    id: order.id
+                },
+                data
+            })
 
-      const code =  await this.prisma.order.update({
-            where: {
-                id: order.id
-            },
-            data: {
-                trackingCode
-            }
-        })
-        
-       
-       const Template = {
-        name: user.nome,
-        email: user.email,
-        trackingCode: order.trackingCode
-       };
-    
+            const Template = {
+                name: user.nome,
+                email: user.email,
+                trackingCode: data.trackingCode
+            };
 
-       await this.mailer.sendMail({
-        to: `${user.email}`,
-        subject: 'Código de Rastreio do Pedido',
-        template: 'trackingCode', 
-        context: Template
-    });
+            await this.mailer.sendMail({
+                to: `${user.email}`,
+                subject: 'Código de Rastreio do Pedido',
+                template: 'trackingCode',
+                context: Template
+            });
 
-    return true;
+            return true;
+        } catch (error) {
+            console.log(error);
+            throw new BadRequestException("Nao foi possivel enviar o codigo para o usuario, tente novamente.")
+        }
 
     }
 
