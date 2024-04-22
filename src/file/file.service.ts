@@ -47,10 +47,9 @@ export class FileService {
             await this.prisma.imageProduto.create({
                 data: {
                     url: imageUrl,
-                    produtoId: Number(produtoId)
+                    produtoId
                 }
             });
-
 
 
             return response;

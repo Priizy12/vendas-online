@@ -1,6 +1,9 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaClient } from '@prisma/client';
 import { MailerService } from "@nestjs-modules/mailer";
+import { UsersService } from "../users/users.service";
+
+
 
 
 
@@ -10,7 +13,8 @@ export class OrderService {
 
     constructor(
         private readonly prisma: PrismaClient,
-        private readonly mailer: MailerService
+        private readonly mailer: MailerService,
+        private readonly users: UsersService,
     ) { }
 
 
@@ -117,7 +121,7 @@ export class OrderService {
         }
     }
 
-    async DeliveredProduct(Delivered: boolean, id: number) {
+    async DeliveredProduct(id: number) {
         try {
             const Order = await this.prisma.order.findFirst({
                 where: {
@@ -143,7 +147,38 @@ export class OrderService {
         }
     }
 
-    async SendTrackingCode(email: string) {
+    async SendTrackingCode( trackingCode: string, userId: number) {
+       const order = await this.getOrderProductsByUser(userId);
+
+       const user = await this.users.readById(order.userId);
+
+      const code =  await this.prisma.order.update({
+            where: {
+                id: order.id
+            },
+            data: {
+                trackingCode
+            }
+        })
+        
+
+
+       
+       const Template = {
+        name: user.nome,
+        email: user.email,
+        trackingCode: order.trackingCode
+       };
+    
+
+       await this.mailer.sendMail({
+        to: `${user.email}`,
+        subject: 'Código de Rastreio do Pedido',
+        template: 'trackingCode', 
+        context: Template
+    });
+
+    return true;
 
     }
 

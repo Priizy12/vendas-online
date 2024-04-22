@@ -15,7 +15,7 @@ import { FileModule } from './file/file.module';
 import { PaymentModule } from './payment/payment.module';
 import { CartModule } from './cart/cart.module';
 import { OrderModule } from './order-product/order.module';
-
+import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 
 
 
@@ -42,22 +42,20 @@ import { OrderModule } from './order-product/order.module';
     MailerModule.forRoot({
       transport: {
         service: 'Gmail',
-        host: 'smtp.gmail.email',
+        host: 'smtp.gmail.com',
         port: 465,
         secure: true,
         auth: {
-          user: 'mertie35@ethereal.email',
-          pass: 'K86wZVKCPtbUE276P6'
+          user: 'ecogreencosmetico@gmail.com',
+          pass: 'kjie szxk oaha meen'
         }
-      },
-      defaults: {
-        from: '"kayo" <mertie35@ethereal.email>',
       },
       template: {
         dir: __dirname + '/templates',
+        adapter: new PugAdapter(),
         options: {
           strict: true,
-        },
+        },  
       },
 
     })

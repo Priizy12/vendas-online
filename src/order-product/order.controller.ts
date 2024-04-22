@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Put, UseGuards } from '@nestjs/common';
 
 import { OrderService } from './order.service';
 import { AuthGuard } from '../guards/auth.guard';
@@ -31,9 +31,16 @@ export class OrderController {
  
   @Roles(Role.Admin)
   @Patch(":id")
-  async UpdateDeliveredProduct( @Param('id') id: number, @Body() Delivered: boolean,) {
-      return this.orderService.DeliveredProduct(Delivered, id);
+  async UpdateDeliveredProduct( @Param('id') id: number) {
+      return this.orderService.DeliveredProduct(id);
   }
+
+  @Roles(Role.Admin)
+  @Put('send-code/:userId')
+  async TrackingCodeToUser (@Body() trackingCode: string, @Param('userId') userId: number) {
+      return this.orderService.SendTrackingCode(trackingCode, userId);
+  }
+
 
 
 }

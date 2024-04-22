@@ -91,6 +91,7 @@ export class AuthService {
       {
         expiresIn: '30 minutes',
         subject: String(user.id),
+        secret: String(process.env.JWT_SECRET)
       },
     );
 
