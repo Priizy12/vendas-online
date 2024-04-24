@@ -1,4 +1,4 @@
-import { BadRequestException, Controller, NotFoundException, Post,  RawBodyRequest,  Req, UseGuards } from "@nestjs/common";
+import { BadRequestException, Controller, NotFoundException, Post, RawBodyRequest, Req, UseGuards } from "@nestjs/common";
 import { PaymentService } from "./payment.service";
 import { User } from "../decorators/user.decorator";
 import { AuthGuard } from "../guards/auth.guard";
@@ -12,7 +12,9 @@ export class PaymentController {
 
     stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2023-10-16' });
 
-    constructor(private readonly paymentService: PaymentService, private readonly prisma: PrismaService) { }
+    constructor(
+        private readonly paymentService: PaymentService,
+        private readonly prisma: PrismaService) { }
 
     @UseGuards(AuthGuard)
     @Post('create-checkout-session')
@@ -41,7 +43,6 @@ export class PaymentController {
             throw new BadRequestException("nao foi possivel pegar as informacoes para continuar com o evento");
         }
 
-
         if (event.type === 'checkout.session.completed') {
             const session = event.data.object as Stripe.Checkout.Session;
 
@@ -51,15 +52,14 @@ export class PaymentController {
                 adressId: Number(session.metadata.adressId)
             }
 
-            if(!data.userId && !data.cartId) {
-                throw new NotFoundException("Usuario ou produtos nao encontrados.")
-            } 
-            
+            if (!data.userId && !data.cartId && data.adressId)  {
+                throw new NotFoundException("Usuario//produtos//endereco nao encontrados.")
+            }
+
             await this.prisma.order.create({
                 data
             })
 
-         
         }
 
         return { sucess: true }
