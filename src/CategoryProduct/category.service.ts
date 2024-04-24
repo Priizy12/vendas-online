@@ -59,7 +59,7 @@ export class CategoryProductService {
                 }
             })
 
-            if (!categoryExist) throw new BadRequestException("Essa Categoria não existe.")
+            if (!categoryExist) throw new NotFoundException("Essa Categoria não existe.")
 
             const category = await this.prisma.category.update({
                 where: {
@@ -87,7 +87,7 @@ export class CategoryProductService {
                 }
             })
 
-            if (!categoryExist) throw new BadRequestException("Essa Categoria não existe.")
+            if (!categoryExist) throw new NotFoundException("Essa Categoria não existe.")
 
 
             const deleteCategory = await this.prisma.category.delete({

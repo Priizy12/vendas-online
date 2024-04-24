@@ -31,7 +31,7 @@ export class AuthService {
         },
         {
           secret: String(process.env.JWT_SECRET),
-          expiresIn: '7 days',
+          expiresIn: '1 day',
           subject: String(user.id)
         },
       ),
@@ -89,7 +89,7 @@ export class AuthService {
         id: user.id,
       },
       {
-        expiresIn: '30 minutes',
+        expiresIn: '10 minutes',
         subject: String(user.id),
         secret: String(process.env.JWT_SECRET)
       },

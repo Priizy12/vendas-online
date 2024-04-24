@@ -69,7 +69,7 @@ export class CartProductService {
       });
 
       if (!productInCart) {
-        throw new BadRequestException("Produto não encontrado no carrinho.");
+        throw new NotFoundException("Produto não encontrado no carrinho.");
       }
 
       await this.prisma.card_produtos.delete({

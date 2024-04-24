@@ -9,7 +9,6 @@ import { ParamUserId } from '../decorators/param-userId.decorator';
 import { User } from '../decorators/user.decorator';
 
 @UseGuards(AuthGuard, RoleGuard)
-
 @Controller('Order')
 export class OrderController {
   constructor(private readonly orderService: OrderService) { }
@@ -32,7 +31,7 @@ export class OrderController {
   @Roles(Role.cliente)
   @Get('User')
   async getOrderUser(@User() userId: number) {
-    return this.orderService.getOrderProductsByUser(userId)
+    return this.orderService.getOrderUser(userId)
   }
 
  
@@ -47,7 +46,4 @@ export class OrderController {
   async TrackingCodeToUser (@Body() data: SendtrackingDto, @ParamUserId() userId: number) {
       return this.orderService.SendTrackingCode(data, userId);
   }
-
-
-
 }

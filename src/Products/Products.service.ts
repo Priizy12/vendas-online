@@ -1,7 +1,7 @@
-import { BadRequestException, Injectable, Delete } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
-import { PrismaClient, card_produtos } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 
 
@@ -9,7 +9,7 @@ import { PrismaClient, card_produtos } from '@prisma/client';
 export class ProductService {
 
     constructor(
-       private readonly prisma: PrismaClient
+        private readonly prisma: PrismaClient
     ) { }
 
 
@@ -39,25 +39,25 @@ export class ProductService {
     async getById(id_produto: number) {
         try {
             const ProductExist = await this.prisma.produtos.findUnique({
-                    where:{
-                        id_produto: Number(id_produto)
-                    }
+                where: {
+                    id_produto: Number(id_produto)
+                }
             });
-            if (!ProductExist) throw new BadRequestException('Esse Produto não existe')
+            if (!ProductExist) throw new NotFoundException('Esse Produto não existe')
 
             const Product = await this.prisma.produtos.findUnique({
-              where:{
-                id_produto: Number(id_produto)
-              },
-              include: {
-                imagem: {
-                    select: {
-                        url: true,
-                        produtoId: true
+                where: {
+                    id_produto: Number(id_produto)
+                },
+                include: {
+                    imagem: {
+                        select: {
+                            url: true,
+                            produtoId: true
+                        }
                     }
                 }
-              }
-        });
+            });
             return Product
 
         } catch (error) {
@@ -65,18 +65,18 @@ export class ProductService {
         }
     }
 
-    async create( data: CreateProductDto ) {
+    async create(data: CreateProductDto) {
         try {
-            const product = this.prisma.produtos.create ({
+            const product = this.prisma.produtos.create({
                 data
             })
 
-            if(isNaN(Number(data.preco)) || isNaN(Number(data.estoque))) {
+            if (isNaN(Number(data.preco)) || isNaN(Number(data.estoque))) {
                 throw new BadRequestException("Preco and estoque must be a number.")
             }
 
             return product;
-           
+
         } catch (e) {
             console.log(e)
             throw new BadRequestException('Erro na criação do produto, preencha os campos Corretamente.')
@@ -84,30 +84,33 @@ export class ProductService {
     }
 
 
-    async update(id_produto: number, { nome_produto, preco, descricao, estoque, categoryId}: UpdateProductDto) {
+    async update(id_produto: number, { nome_produto, preco, descricao, estoque, categoryId, oferta }: UpdateProductDto) {
         try {
             const productExist = await this.prisma.produtos.findUnique({
                 where: {
                     id_produto: Number(id_produto)
                 }
-        });
-            if (!productExist) throw new BadRequestException('Esse produto nao existe')
+            });
+            if (!productExist) throw new NotFoundException('Esse produto nao existe')
 
-            const product = await this.prisma.produtos.update({data: {
-                nome_produto,
-                preco,
-                descricao,
-                estoque,
-                categoryId
-            },
-            where: {
-                id_produto: Number(id_produto)
-            }
-        })
+            const product = await this.prisma.produtos.update({
+                data: {
+                    nome_produto,
+                    preco,
+                    descricao,
+                    estoque,
+                    categoryId,
+                    oferta
+                },
+                where: {
+                    id_produto: Number(id_produto)
+                }
+            })
 
             return {
                 message: "Produto Atualizado com sucesso"
             }
+
         } catch (error) {
             console.log(error)
             throw new BadRequestException('Erro na modificação de informações do produto')
@@ -116,29 +119,32 @@ export class ProductService {
 
 
     async delete(id_produto: number) {
-       try {
-        
-        const productExist = await this.prisma.produtos.findFirst({
-            where: {
-              id_produto: Number(id_produto)
-            }
-          });
-          if (!productExist) throw new BadRequestException(`Esse produto do id: ${id_produto} não existe`);
+        try {
 
-      
-        const product =  await this.prisma.produtos.delete({
-            where: {
-              id_produto: Number(id_produto)
-            },
-            include: {
-                card: true
-             }
-          });
-      
-          return {sucess: true}
-       } catch (error) {
+            const productExist = await this.prisma.produtos.findFirst({
+                where: {
+                    id_produto: Number(id_produto)
+                }
+            });
+            if (!productExist) throw new NotFoundException(`Esse produto do id: ${id_produto} não existe`);
+
+
+            await this.prisma.card_produtos.deleteMany({
+                where: {
+                    produtoId: Number(id_produto)
+                }
+            });
+
+            const product = await this.prisma.produtos.delete({
+                where: {
+                    id_produto: Number(id_produto)
+                }
+            });
+
+            return { sucess: true }
+        } catch (error) {
             console.log(error)
             throw new BadRequestException("Não foi possivel excluir o produto.")
-       }
+        }
     }
 }

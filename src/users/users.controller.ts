@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -15,7 +15,7 @@ import { ApiTags } from '@nestjs/swagger';
 @ApiTags('Controle de Usuarios')
 export class UsersController {
 
-    constructor(private readonly UserService: UsersService) {}
+    constructor(private readonly UserService: UsersService) { }
 
     @Roles(Role.Admin)
     @Get()
@@ -32,7 +32,7 @@ export class UsersController {
     @Roles(Role.Admin)
     @Post()
     async create(@Body() data: CreateUserDTO) {
-         return this.UserService.create(data)
+        return this.UserService.create(data)
     }
     @Roles(Role.Admin)
     @Put(":id")

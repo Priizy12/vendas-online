@@ -126,6 +126,64 @@ export class OrderService {
         }
     }
 
+    async getOrderUser(userId: number) {
+        try {
+            const user = await this.prisma.order.findFirst({
+                where: {
+                    userId: Number(userId)
+                }
+            });
+
+            if (!user) {
+                throw new NotFoundException("Nao existe pedidos para esse usuario");
+            }
+
+            const OrderByUser = await this.prisma.order.findMany({
+                where: {
+                    userId: Number(userId)
+                },
+                include: {
+                    users: {
+                        select: {
+                            nome: true,
+                            email: true
+                        }
+                    },
+                    adress: {
+                        select: {
+                            estado: true,
+                            cidade: true,
+                            bairro: true,
+                            Rua: true,
+                            numero: true,
+                            CEP: true,
+                            telefone_contato: true,
+                            complemento: true,
+                            ponto_de_referencia: true
+                        }
+                    },
+                    carrinho: {
+                        select: {
+                            amount: true,
+                            produtos: {
+                                select: {
+                                    nome_produto: true,
+                                    preco: true,
+                                }
+                            }
+                        },
+
+                    }
+                }
+
+            });
+            return OrderByUser;
+        } catch (error) {
+            console.log(error);
+            throw new BadRequestException("Não foi possivel visualizar pedidos desse Usuario")
+        }
+    }
+
     async DeliveredProduct(id: number) {
         try {
             const Order = await this.prisma.order.findFirst({
