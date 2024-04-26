@@ -22,8 +22,6 @@ export class PaymentService {
         const cart = this.cartService.findCartByUserId(userId)
         const produtos = (await cart).carrinho
 
-
-
         const line_items = produtos.map(item => {
             return {
                 price_data: {

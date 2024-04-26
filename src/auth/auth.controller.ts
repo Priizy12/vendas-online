@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, FileTypeValidator, Header, MaxFileSizeValidator, ParseFilePipe, Post, Req, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Post, Put, UseGuards } from "@nestjs/common";
 import { AuthDTO } from "./dto/auth-login.dto";
 import { AuthRegisterDTO } from "./dto/auth-register.dto";
 import { AuthForgetDTO } from "./dto/auth-forget.dto";
@@ -42,10 +42,8 @@ export class AuthController {
     }
 
     @UseGuards(AuthGuard)
-    @Post('UpdatePass')
-    async updatePass(@Body() {senha, token}: AuthUpdateDTO, id: number) {
+    @Put('UpdatePass')
+    async updatePass(@Body() {senha, token}: AuthUpdateDTO, @User() id: number) {
         return this.AuthService.updatePass( senha, token, id)
     }
-
-  
 }

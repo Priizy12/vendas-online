@@ -138,7 +138,8 @@ export class AuthService {
       const user = await this.userService.readById(Number(data.id))
 
       return this.createToken(user)
-    } catch (error) {
+    } catch (e) {
+      console.log(e)
       throw new BadRequestException('nao foi possivel atualizar a senha do usuario')
     }
   }
