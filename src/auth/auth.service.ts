@@ -101,12 +101,15 @@ export class AuthService {
       to: `${user.email}`,
       template: 'forget',
       context: {
-        name: user.nome,
-        token
+        name: user.nome
       },
     });
 
-    return true;
+    return {
+      acess: {
+        token
+      }
+    };
   }
 
   async updatePass(senha: string, token: string, id: number) {
@@ -127,7 +130,7 @@ export class AuthService {
         data: {
           senha
         },
-        where:{
+        where: {
           id: Number(id)
         }
       })
