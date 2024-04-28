@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt'
@@ -37,12 +37,26 @@ export class UsersService {
 
   async create(data: CreateUserDTO) {
 
-    const usuarioExist = await this.prisma.users.findFirst({
+    const EmailUsuarioExiste = await this.prisma.users.findFirst({
       where: {
         email: data.email
       }
     });
-    if (usuarioExist) throw new NotFoundException('Esse Usuario ja existe')
+    if (EmailUsuarioExiste) throw new NotFoundException('Já existe um usuario com esse email.')
+
+    const CpfUserExiste = await this.prisma.users.findFirst({
+      where: {
+        CPF: data.CPF
+      }
+    });
+    if (CpfUserExiste) throw new NotFoundException('Já existe um usuario com esse cpf.')
+
+    const TellUserExiste = await this.prisma.users.findFirst({
+      where: {
+        Telefone: data.Telefone
+      }
+    });
+    if (TellUserExiste) throw new UnauthorizedException("Já existe um usuario cadastrado com esse Telefone.");
 
     const salt = await bcrypt.genSalt();
 
@@ -53,7 +67,6 @@ export class UsersService {
     return user;
 
   }
-
 
 
   async update(id: number, { email, nome, senha, Telefone, role, genero, CPF }: UpdateUserDto) {
@@ -91,8 +104,6 @@ export class UsersService {
       throw new BadRequestException('não foi possivel atualizar informações do usúario.')
     };
   };
-
-
 
 
   async delete(id: number) {
