@@ -4,7 +4,6 @@ import { UpdateProductDto } from "./dto/update-product.dto";
 import { PrismaClient } from '@prisma/client';
 
 
-
 @Injectable()
 export class ProductService {
 

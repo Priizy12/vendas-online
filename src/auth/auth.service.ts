@@ -101,15 +101,12 @@ export class AuthService {
       to: `${user.email}`,
       template: 'forget',
       context: {
-        name: user.nome
+        name: user.nome,
+        link: process.env.UPDATE_PASS + token
       },
     });
 
-    return {
-      acess: {
-        token
-      }
-    };
+    return { sucess: true }
   }
 
   async updatePass(senha: string, token: string, id: number) {
