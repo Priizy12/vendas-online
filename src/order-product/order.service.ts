@@ -134,9 +134,8 @@ export class OrderService {
                 }
             });
 
-            if (!user) {
-                throw new NotFoundException("Nao existe pedidos para esse usuario");
-            }
+            if (!user) throw new NotFoundException("Nao existe pedidos para esse usuario");
+            
 
             const OrderByUser = await this.prisma.order.findMany({
                 where: {
