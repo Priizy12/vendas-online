@@ -39,38 +39,33 @@ export class PaymentController {
                 String(process.env.STRIPE_WEBHOOK_SECRET)
             );
         } catch (err) {
-            console.log(err);
             throw new BadRequestException("nao foi possivel pegar as informacoes para continuar com o evento");
         }
 
-        if (event.type === 'checkout.session.completed') {
-            const session = event.data.object as Stripe.Checkout.Session;
+        try {
+            if (event.type === 'checkout.session.completed') {
+                const session = event.data.object as Stripe.Checkout.Session;
 
-            const data = {
-                userId: Number(session.metadata.userId),
-                cartId: Number(session.metadata.cartId),
-                adressId: Number(session.metadata.adressId)
+                const data = {
+                    userId: Number(session.metadata.userId),
+                    cartId: Number(session.metadata.cartId),
+                    adressId: Number(session.metadata.adressId)
+                }
+
+                if (!data.userId && !data.cartId && !data.adressId) {
+                    throw new NotFoundException("Usuario//produtos//endereco nao encontrados.")
+                }
+
+                await this.prisma.order.create({
+                    data
+                })
+
             }
 
-            const cartExists = await this.prisma.cart.findUnique({
-                where: { id: data.cartId },
-            });
-        
-            if (!cartExists) {
-                throw new NotFoundException("Carrinho não encontrado.");
-            }
-
-            if (!data.userId && !data.cartId && !data.adressId)  {
-                throw new NotFoundException("Usuario//produtos//endereco nao encontrados.")
-            }
-
-            await this.prisma.order.create({
-                data
-            })
-
+            return { sucess: true }
+        } catch (e) {
+            console.log(e);
         }
-
-        return { sucess: true }
     }
 }
 
