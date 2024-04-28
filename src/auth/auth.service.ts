@@ -74,7 +74,6 @@ export class AuthService {
 
   }
 
-
   async forget(email: string) {
     const user = await this.prisma.users.findFirst({
       where: {
@@ -109,7 +108,7 @@ export class AuthService {
     return { sucess: true }
   }
 
-  async updatePass(senha: string, token: string) {
+  async updatePass(senha: string, token: string, id: number) {
 
     try {
       const data: any = this.JWTService.verify(token, {
@@ -128,7 +127,7 @@ export class AuthService {
           senha
         },
         where: {
-          id: Number(data.id)
+          id: Number(id)
         }
       })
 
