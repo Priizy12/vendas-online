@@ -43,6 +43,7 @@ export class PaymentController {
             throw new BadRequestException("nao foi possivel pegar as informacoes para continuar com o evento");
         }
 
+       try {
         if (event.type === 'checkout.session.completed') {
             const session = event.data.object as Stripe.Checkout.Session;
 
@@ -63,6 +64,9 @@ export class PaymentController {
         }
 
         return { sucess: true }
+       } catch(e) {
+        console.log(e);
+       }
     }
 }
 
