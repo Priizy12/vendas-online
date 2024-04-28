@@ -52,8 +52,8 @@ export class PaymentController {
                     adressId: Number(session.metadata.adressId)
                 }
 
-                if (!data.userId && !data.cartId && !data.adressId) {
-                    throw new NotFoundException("Usuario//produtos//endereco nao encontrados.")
+                if (!data.userId ) {
+                    throw new NotFoundException("Usuario não encontrado")
                 }
 
                 await this.prisma.order.create({
