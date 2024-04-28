@@ -109,7 +109,7 @@ export class AuthService {
     return { sucess: true }
   }
 
-  async updatePass(senha: string, token: string, id: number) {
+  async updatePass(senha: string, token: string) {
 
     try {
       const data: any = this.JWTService.verify(token, {
@@ -128,13 +128,11 @@ export class AuthService {
           senha
         },
         where: {
-          id: Number(id)
+          id: Number(data.id)
         }
       })
 
-      const user = await this.userService.readById(Number(data.id))
-
-      return this.createToken(user)
+      return { message: "Senha Modificada com sucesso" }
     } catch (e) {
       console.log(e)
       throw new BadRequestException('nao foi possivel atualizar a senha do usuario')

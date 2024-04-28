@@ -43,7 +43,7 @@ export class AuthController {
 
     @UseGuards(AuthGuard)
     @Put('UpdatePass')
-    async updatePass(@Body() {senha, token}: AuthUpdateDTO, @User() id: number) {
-        return this.AuthService.updatePass( senha, token, id)
+    async updatePass(@Body() {senha, token}: AuthUpdateDTO) {
+        return this.AuthService.updatePass( senha, token)
     }
 }
