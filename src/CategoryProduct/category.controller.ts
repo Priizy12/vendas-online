@@ -4,7 +4,6 @@ import { CategoryProductService } from './category.service';
 import { CreateCategoryDTO } from "./dto/create-category.dto";
 import { UpdateCategoryDto } from "./dto/update-category.dto";
 import { Paramid } from "../decorators/param-id.decorator";
-import { RoleGuard } from "../guards/role.guard";
 import { Roles } from "../decorators/role.decorator";
 import { Role } from "../enums/role.enum";
 import { AuthGuard } from "../guards/auth.guard";
@@ -17,7 +16,7 @@ export class CategoryProductController {
 
     constructor(private readonly categoryProduct: CategoryProductService) { }
 
-
+    
     @Get()
     async getCategory() {
         return this.categoryProduct.getCategory()

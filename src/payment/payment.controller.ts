@@ -4,9 +4,10 @@ import { User } from "../decorators/user.decorator";
 import { AuthGuard } from "../guards/auth.guard";
 import { PrismaService } from "../database/prisma.service";
 import Stripe from "stripe";
+import { ApiTags } from "@nestjs/swagger";
 
 
-
+@ApiTags('Controle de Pagamento')
 @Controller('payments')
 export class PaymentController {
 

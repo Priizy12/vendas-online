@@ -7,7 +7,11 @@ import { Role } from '../enums/role.enum';
 import { SendtrackingDto } from './dtos/send-tracking-dto';
 import { ParamUserId } from '../decorators/param-userId.decorator';
 import { User } from '../decorators/user.decorator';
+import { Paramid } from '../decorators/param-id.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
+
+@ApiTags('Controle de Pediddos')
 @UseGuards(AuthGuard, RoleGuard)
 @Controller('Order')
 export class OrderController {
@@ -24,7 +28,7 @@ export class OrderController {
 
   @Roles(Role.Admin)
   @Get('User/:userId')
-  async getOrderByUser(@Param('userId') userId: number) {
+  async getOrderByUser(@ParamUserId() userId: number) {
     return this.orderService.getOrderProductsByUser(userId)
   }
 
@@ -37,7 +41,7 @@ export class OrderController {
  
   @Roles(Role.Admin)
   @Patch(":id")
-  async UpdateDeliveredProduct( @Param('id') id: number) {
+  async UpdateDeliveredProduct( @Paramid() id: number) {
       return this.orderService.DeliveredProduct(id);
   }
 

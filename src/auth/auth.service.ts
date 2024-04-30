@@ -56,7 +56,6 @@ export class AuthService {
     return this.createToken(user)
   }
 
-
   async Login({ email, senha }: AuthDTO) {
     const user = await this.prisma.users.findFirst({
       where: {
@@ -101,11 +100,11 @@ export class AuthService {
       template: 'forget',
       context: {
         name: user.nome,
-        link: process.env.UPDATE_PASS + token
+        link: process.env.UPDATE_PASS
       },
     });
 
-    return { sucess: true }
+    return { acess: token }
   }
 
   async updatePass(senha: string, token: string, id: number) {
