@@ -69,7 +69,7 @@ model cart {
 }
 
 model card_produtos {
-  id        Int @id @default(autoincrement())
+  id       Int @id @default(autoincrement())
   cartId    Int
   amount    Int
   produtoId Int

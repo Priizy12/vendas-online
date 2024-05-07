@@ -43,28 +43,27 @@ export class PaymentController {
             throw new BadRequestException("nao foi possivel pegar as informacoes para continuar com o evento");
         }
 
-        if (event.type === 'checkout.session.completed') {
-            const session = event.data.object as Stripe.Checkout.Session;
+        try {
+            if (event.type === 'checkout.session.completed') {
+                const session = event.data.object as Stripe.Checkout.Session;
 
-            const data = {
-                userId: Number(session.metadata.userId),
-                cart_Id: Number(session.metadata.cartId),
-                adressId: Number(session.metadata.adressId)
+                const data = {
+                    userId: Number(session.metadata.userId),
+                    cart_Id: Number(session.metadata.cartId),
+                    adressId: Number(session.metadata.adressId)
+                }
+
+                if (!data.userId || data.cart_Id || data.adressId) throw new NotFoundException("Dados nao econtrados")
+
+
+                await this.prisma.order.create({
+                    data
+                });
             }
-
-            if (!data.userId) throw new NotFoundException("Usuario não encontrado")
-
-            if (!data.cart_Id) throw new NotFoundException("Produtos não encontrados.")
-
-            const order = await this.prisma.order.create({
-                data
-            });
-            console.log(order)
+            return { sucess: true }
+        } catch (e) {
+            console.log(e)
         }
-
-
-        return { sucess: true }
-
     }
 }
 
