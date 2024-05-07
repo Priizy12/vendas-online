@@ -104,7 +104,7 @@ export class AuthService {
       },
     });
 
-    return { acess: token }
+    return { access: token }
   }
 
   async updatePass(senha: string, token: string, id: number) {

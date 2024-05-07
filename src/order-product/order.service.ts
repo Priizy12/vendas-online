@@ -19,7 +19,7 @@ export class OrderService {
         private readonly mailer: MailerService,
         private readonly users: UsersService,
         private readonly product: ProductService
-       
+
     ) { }
 
 
@@ -135,7 +135,7 @@ export class OrderService {
             });
 
             if (!user) throw new NotFoundException("Nao existe pedidos para esse usuario");
-            
+
 
             const OrderByUser = await this.prisma.order.findMany({
                 where: {
@@ -242,5 +242,29 @@ export class OrderService {
 
     }
 
+    async DeleteOrder(id: number) {
 
+        try {
+            const Order = await this.prisma.order.findFirst({
+                where: {
+                    id: Number(id)
+                }
+            });
+
+            if (!Order) throw new NotFoundException("Esse pedido nao existe ou nao foi encontrado na base de dados.");
+
+            const deleteOrder = await this.prisma.order.delete({
+                where: {
+                    id: Number(id)
+                }
+            });
+
+            return { sucess: true }
+        } catch (error) {
+            console.log(error);
+            throw new BadRequestException("não foi possivel deletar esse pedido.")
+        }
+
+
+    }
 }

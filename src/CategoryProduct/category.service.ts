@@ -26,8 +26,6 @@ export class CategoryProductService {
         }
     }
 
-
-
     async getCategory() {
         try {
             const getCategory = await this.prisma.category.findMany({
@@ -37,7 +35,13 @@ export class CategoryProductService {
                             nome_produto: true,
                             descricao: true,
                             preco: true,
-                            estoque: true
+                            estoque: true,
+                            imagem: {
+                                select: {
+                                    produtoId: true,
+                                    url: true
+                                }
+                            }
                         }
                     }
                 }
@@ -49,7 +53,6 @@ export class CategoryProductService {
             throw new BadRequestException("Erro ao visualizar Categorias")
         }
     }
-
 
     async update({ nome }: UpdateCategoryDto, id: number) {
         try {
@@ -76,7 +79,6 @@ export class CategoryProductService {
             throw new BadRequestException("Não foi possivel atualizar esta categoria.")
         }
     }
-
 
     async delete(id: number) {
         try {

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch,  Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Patch, Put, UseGuards } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { AuthGuard } from '../guards/auth.guard';
 import { Roles } from '../decorators/role.decorator';
@@ -18,7 +18,7 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) { }
 
 
-  
+
   @Roles(Role.Admin)
   @Get()
   async getOrder() {
@@ -38,16 +38,23 @@ export class OrderController {
     return this.orderService.getOrderUser(userId)
   }
 
- 
+
   @Roles(Role.Admin)
   @Patch(":id")
-  async UpdateDeliveredProduct( @Paramid() id: number) {
-      return this.orderService.DeliveredProduct(id);
+  async UpdateDeliveredProduct(@Paramid() id: number) {
+    return this.orderService.DeliveredProduct(id);
   }
 
   @Roles(Role.Admin)
+  @Delete(":id")
+  async deleteOrder(@Paramid() id: number) {
+    return this.orderService.DeleteOrder(id)
+  }
+
+
+  @Roles(Role.Admin)
   @Put('send-code/:userId')
-  async TrackingCodeToUser (@Body() data: SendtrackingDto, @ParamUserId() userId: number) {
-      return this.orderService.SendTrackingCode(data, userId);
+  async TrackingCodeToUser(@Body() data: SendtrackingDto, @ParamUserId() userId: number) {
+    return this.orderService.SendTrackingCode(data, userId);
   }
 }
