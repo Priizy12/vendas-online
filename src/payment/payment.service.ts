@@ -36,6 +36,10 @@ export class PaymentService {
             }
         });
 
+        const id_cart = produtos.map((carrinho) => ({
+            cartId: carrinho.id
+        }));
+
         const session = await this.stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items,
@@ -45,7 +49,7 @@ export class PaymentService {
             customer_creation: "if_required",
             metadata: {
                 userId,
-                cartId: (await cart).id,
+                cartId: Number(id_cart),
                 adressId: userId
             }
         });
