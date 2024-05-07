@@ -3,12 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { MailerService } from "@nestjs-modules/mailer";
 import { UsersService } from "../users/users.service";
 import { SendtrackingDto } from "./dtos/send-tracking-dto";
-import { CartService } from "../cart/cart.service";
 import { ProductService } from "../Products/Products.service";
-
-
-
-
 
 
 @Injectable()
@@ -183,11 +178,11 @@ export class OrderService {
         }
     }
 
-    async DeliveredProduct(id: number) {
+    async DeliveredProduct(id_order: number) {
         try {
             const Order = await this.prisma.order.findFirst({
                 where: {
-                    id: Number(id)
+                    id_order: Number(id_order)
                 }
             });
 
@@ -195,7 +190,7 @@ export class OrderService {
 
             const DeliveredProduct = await this.prisma.order.update({
                 where: {
-                    id: Number(id)
+                    id_order: Number(id_order)
                 },
                 data: {
                     Delivered: true
@@ -216,7 +211,7 @@ export class OrderService {
         try {
             await this.prisma.order.update({
                 where: {
-                    id: order.id
+                    id_order: order.id_order
                 },
                 data
             })
@@ -242,12 +237,12 @@ export class OrderService {
 
     }
 
-    async DeleteOrder(id: number) {
+    async DeleteOrder(id_order: number) {
 
         try {
             const Order = await this.prisma.order.findFirst({
                 where: {
-                    id: Number(id)
+                    id_order: Number(id_order)
                 }
             });
 
@@ -255,7 +250,7 @@ export class OrderService {
 
             const deleteOrder = await this.prisma.order.delete({
                 where: {
-                    id: Number(id)
+                    id_order: Number(id_order)
                 }
             });
 
