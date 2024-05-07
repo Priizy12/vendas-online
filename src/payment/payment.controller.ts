@@ -53,7 +53,7 @@ export class PaymentController {
                     adressId: Number(session.metadata.adressId)
                 }
 
-                if (!data.userId || data.cart_Id || data.adressId) throw new NotFoundException("Dados nao econtrados")
+                if (data.cart_Id ) throw new NotFoundException("Dados de produto nao encontrados")
 
 
                 await this.prisma.order.create({

@@ -37,7 +37,7 @@ export class PaymentService {
         });
 
         const id_cart = produtos.map((carrinho) => ({
-            cartId: carrinho.id
+            id: carrinho.id
         }));
 
         const session = await this.stripe.checkout.sessions.create({
