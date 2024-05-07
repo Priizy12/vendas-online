@@ -45,8 +45,8 @@ export class PaymentService {
             customer_creation: "if_required",
             metadata: {
                 userId,
-                cartId: (await cart).id,
-                adressId: userId
+                adressId: userId,
+                cartId: (await cart).id
             }
         });
 
