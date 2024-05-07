@@ -48,13 +48,13 @@ export class PaymentController {
 
             const data = {
                 userId: Number(session.metadata.userId),
-                cartId: Number(session.metadata.cartId),
+                cart_Id: Number(session.metadata.cartId),
                 adressId: Number(session.metadata.adressId)
             }
 
             if (!data.userId) throw new NotFoundException("Usuario não encontrado")
 
-            if (!data.cartId) throw new NotFoundException("Produtos não encontrados.")
+            if (!data.cart_Id) throw new NotFoundException("Produtos não encontrados.")
 
             const order = await this.prisma.order.create({
                 data
