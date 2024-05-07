@@ -80,14 +80,14 @@ model card_produtos {
 }
 
 model Order {
-  id           Int           @id @default(autoincrement())
-  cartId       Int
-  carrinho     card_produtos @relation(fields: [cartId], references: [id])
+  id_order     Int           @id @default(autoincrement())
+  cart_Id      Int
+  carrinho     card_produtos @relation(fields: [cart_Id], references: [id])
   userId       Int
   users        users         @relation(fields: [userId], references: [id])
   adressId     Int
   adress       Adress        @relation(fields: [adressId], references: [id])
-  Delivered    Boolean       @default(false)
+  Delivered    Boolean?      @default(false)
   trackingCode String?
 
   createdAt DateTime @default(now())

@@ -69,16 +69,16 @@ CREATE TABLE "card_produtos" (
 
 -- CreateTable
 CREATE TABLE "Order" (
-    "id" SERIAL NOT NULL,
-    "cartId" INTEGER NOT NULL,
+    "id_order" SERIAL NOT NULL,
+    "cart_Id" INTEGER NOT NULL,
     "userId" INTEGER NOT NULL,
     "adressId" INTEGER NOT NULL,
-    "Delivered" BOOLEAN NOT NULL DEFAULT false,
+    "Delivered" BOOLEAN DEFAULT false,
     "trackingCode" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Order_pkey" PRIMARY KEY ("id_order")
 );
 
 -- CreateTable
@@ -123,7 +123,7 @@ ALTER TABLE "card_produtos" ADD CONSTRAINT "card_produtos_cartId_fkey" FOREIGN K
 ALTER TABLE "card_produtos" ADD CONSTRAINT "card_produtos_produtoId_fkey" FOREIGN KEY ("produtoId") REFERENCES "Produtos"("id_produto") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Order" ADD CONSTRAINT "Order_cartId_fkey" FOREIGN KEY ("cartId") REFERENCES "card_produtos"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Order" ADD CONSTRAINT "Order_cart_Id_fkey" FOREIGN KEY ("cart_Id") REFERENCES "card_produtos"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Order" ADD CONSTRAINT "Order_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
