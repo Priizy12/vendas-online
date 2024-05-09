@@ -25,7 +25,8 @@ export class OrderService {
                     users: {
                         select: {
                             nome: true,
-                            email: true
+                            email: true,
+                            CPF: true
                         }
                     },
                     adress: {
@@ -83,7 +84,8 @@ export class OrderService {
                     users: {
                         select: {
                             nome: true,
-                            email: true
+                            email: true,
+                            CPF: true
                         }
                     },
                     adress: {
@@ -238,7 +240,6 @@ export class OrderService {
     }
 
     async DeleteOrder(id_order: number) {
-
         try {
             const Order = await this.prisma.order.findFirst({
                 where: {
@@ -259,7 +260,5 @@ export class OrderService {
             console.log(error);
             throw new BadRequestException("não foi possivel deletar esse pedido.")
         }
-
-
     }
 }
