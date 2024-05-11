@@ -41,13 +41,24 @@ export class OrderService {
                             complemento: true,
                             ponto_de_referencia: true
                         }
-                    },  carrinho: {
+                    }, carrinho: {
                         select: {
                             carrinho: {
                                 select: {
                                     carrinho: {
                                         include: {
-                                            produtos: true
+                                            produtos: {
+                                                select: {
+                                                    nome_produto: true,
+                                                    preco: true,
+                                                    imagem: {
+                                                        select: {
+                                                            url: true,
+                                                            produtoId: true
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -108,7 +119,18 @@ export class OrderService {
                                 select: {
                                     carrinho: {
                                         include: {
-                                            produtos: true
+                                            produtos: {
+                                                select: {
+                                                    nome_produto: true,
+                                                    preco: true,
+                                                    imagem: {
+                                                        select: {
+                                                            url: true,
+                                                            produtoId: true
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -158,13 +180,24 @@ export class OrderService {
                             complemento: true,
                             ponto_de_referencia: true
                         }
-                    }, carrinho: {
+                    },  carrinho: {
                         select: {
                             carrinho: {
                                 select: {
                                     carrinho: {
                                         include: {
-                                            produtos: true
+                                            produtos: {
+                                                select: {
+                                                    nome_produto: true,
+                                                    preco: true,
+                                                    imagem: {
+                                                        select: {
+                                                            url: true,
+                                                            produtoId: true
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
