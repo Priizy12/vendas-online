@@ -41,21 +41,22 @@ export class OrderService {
                             complemento: true,
                             ponto_de_referencia: true
                         }
-                    },
-                    carrinho: {
+                    },  carrinho: {
                         select: {
-                            amount: true,
-                            produtos: {
+                            carrinho: {
                                 select: {
-                                    nome_produto: true,
-                                    preco: true,
+                                    carrinho: {
+                                        include: {
+                                            produtos: true
+                                        }
+                                    }
                                 }
                             }
-                        },
-
+                        }
                     }
                 }
             });
+
             return products;
         } catch (error) {
             console.log(error);
@@ -103,18 +104,18 @@ export class OrderService {
                     },
                     carrinho: {
                         select: {
-                            amount: true,
-                            produtos: {
+                            carrinho: {
                                 select: {
-                                    nome_produto: true,
-                                    preco: true,
+                                    carrinho: {
+                                        include: {
+                                            produtos: true
+                                        }
+                                    }
                                 }
                             }
-                        },
-
+                        }
                     }
                 }
-
             });
             return OrderByUser;
         } catch (error) {
@@ -157,21 +158,20 @@ export class OrderService {
                             complemento: true,
                             ponto_de_referencia: true
                         }
-                    },
-                    carrinho: {
+                    }, carrinho: {
                         select: {
-                            amount: true,
-                            produtos: {
+                            carrinho: {
                                 select: {
-                                    nome_produto: true,
-                                    preco: true,
+                                    carrinho: {
+                                        include: {
+                                            produtos: true
+                                        }
+                                    }
                                 }
                             }
-                        },
-
+                        }
                     }
                 }
-
             });
             return OrderByUser;
         } catch (error) {
