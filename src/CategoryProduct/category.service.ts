@@ -32,6 +32,7 @@ export class CategoryProductService {
                 include: {
                     Produtos: {
                         select: {
+                            id_produto: true,
                             nome_produto: true,
                             descricao: true,
                             preco: true,

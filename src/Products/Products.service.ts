@@ -20,7 +20,8 @@ export class ProductService {
                         select: {
                             url: true,
                             produtoId: true
-                        }
+                        },
+                        
                     }
                 }
             });

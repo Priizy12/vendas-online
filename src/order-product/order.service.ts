@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { MailerService } from "@nestjs-modules/mailer";
 import { UsersService } from "../users/users.service";
 import { SendtrackingDto } from "./dtos/send-tracking-dto";
-import { ProductService } from "../Products/Products.service";
+
 
 
 @Injectable()
@@ -13,8 +13,6 @@ export class OrderService {
         private readonly prisma: PrismaClient,
         private readonly mailer: MailerService,
         private readonly users: UsersService,
-        private readonly product: ProductService
-
     ) { }
 
 
