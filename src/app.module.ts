@@ -16,6 +16,7 @@ import { PaymentModule } from './payment/payment.module';
 import { CartModule } from './cart/cart.module';
 import { OrderModule } from './order-product/order.module';
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
+import { WebHooksModule } from './Webhooks/webhooks.module';
 
 
 
@@ -35,6 +36,7 @@ import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
     PaymentModule,
     FileModule,
     OrderModule,
+    WebHooksModule,
     forwardRef(() => AuthModule),
     ConfigModule.forRoot({
       isGlobal: true
