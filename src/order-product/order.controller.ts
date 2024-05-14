@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Patch, Put, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Patch,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { OrderService } from './order.service';
 import { AuthGuard } from '../guards/auth.guard';
 import { Roles } from '../decorators/role.decorator';
@@ -10,14 +18,11 @@ import { User } from '../decorators/user.decorator';
 import { Paramid } from '../decorators/param-id.decorator';
 import { ApiTags } from '@nestjs/swagger';
 
-
-@ApiTags('Controle de Pediddos')
+@ApiTags('Controle de Pedidos')
 @UseGuards(AuthGuard, RoleGuard)
 @Controller('Order')
 export class OrderController {
-  constructor(private readonly orderService: OrderService) { }
-
-
+  constructor(private readonly orderService: OrderService) {}
 
   @Roles(Role.Admin)
   @Get()
@@ -25,36 +30,36 @@ export class OrderController {
     return this.orderService.getOrderProducts();
   }
 
-
   @Roles(Role.Admin)
   @Get('User/:userId')
   async getOrderByUser(@ParamUserId() userId: number) {
-    return this.orderService.getOrderProductsByUser(userId)
+    return this.orderService.getOrderProductsByUser(userId);
   }
 
   @Roles(Role.cliente)
   @Get('User')
   async getOrderUser(@User() userId: number) {
-    return this.orderService.getOrderUser(userId)
+    return this.orderService.getOrderUser(userId);
   }
 
-
   @Roles(Role.Admin)
-  @Patch(":id")
+  @Patch(':id')
   async UpdateDeliveredProduct(@Paramid() id: number) {
     return this.orderService.DeliveredProduct(id);
   }
 
   @Roles(Role.Admin)
-  @Delete(":id")
+  @Delete(':id')
   async deleteOrder(@Paramid() id: number) {
-    return this.orderService.DeleteOrder(id)
+    return this.orderService.DeleteOrder(id);
   }
-
 
   @Roles(Role.Admin)
   @Put('send-code/:userId')
-  async TrackingCodeToUser(@Body() data: SendtrackingDto, @ParamUserId() userId: number) {
+  async TrackingCodeToUser(
+    @Body() data: SendtrackingDto,
+    @ParamUserId() userId: number,
+  ) {
     return this.orderService.SendTrackingCode(data, userId);
   }
 }

@@ -1,4 +1,3 @@
-
 import { Module, forwardRef } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
@@ -18,11 +17,9 @@ import { OrderModule } from './order-product/order.module';
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 import { WebHooksModule } from './Webhooks/webhooks.module';
 
-
-
 @Module({
   imports: [
-     forwardRef(() => UsersModule),
+    forwardRef(() => UsersModule),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'node_modules', 'swagger-ui-dist'),
       serveRoot: 'swagger',
@@ -39,7 +36,7 @@ import { WebHooksModule } from './Webhooks/webhooks.module';
     WebHooksModule,
     forwardRef(() => AuthModule),
     ConfigModule.forRoot({
-      isGlobal: true
+      isGlobal: true,
     }),
     MailerModule.forRoot({
       transport: {
@@ -49,19 +46,17 @@ import { WebHooksModule } from './Webhooks/webhooks.module';
         secure: true,
         auth: {
           user: process.env.EMAIL_MAILER,
-          pass: process.env.PASS_MAILER
-        }
+          pass: process.env.PASS_MAILER,
+        },
       },
       template: {
         dir: __dirname + '/templates',
         adapter: new PugAdapter(),
         options: {
           strict: true,
-        },  
+        },
       },
-
-    })
-  ]
-
+    }),
+  ],
 })
-export class AppModule { }
+export class AppModule {}

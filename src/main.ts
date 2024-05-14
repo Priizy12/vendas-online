@@ -4,11 +4,9 @@ import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as bodyParser from 'body-parser';
 
-
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.use('/payments/webhook', bodyParser.raw({ type: '*/*' }))
+  app.use('/payments/webhook', bodyParser.raw({ type: '*/*' }));
 
   const config = new DocumentBuilder()
     .setTitle('Vendas-online-api')
@@ -21,8 +19,7 @@ async function bootstrap() {
   SwaggerModule.setup('swagger', app, document);
 
   app.enableCors();
-  app.useGlobalPipes(new ValidationPipe())
-
+  app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(4000);
 }
