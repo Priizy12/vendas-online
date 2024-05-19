@@ -138,6 +138,12 @@ export class ProductService {
           `Esse produto do id: ${id_produto} não existe`,
         );
 
+        await this.prisma.imageProduto.deleteMany({
+          where: {
+            produtoId: Number(id_produto),
+          },
+        });
+
       await this.prisma.card_produtos.deleteMany({
         where: {
           produtoId: Number(id_produto),
@@ -148,7 +154,7 @@ export class ProductService {
         where: {
           id_produto: Number(id_produto),
         },
-      });
+       });
 
       return { sucess: true };
     } catch (error) {
