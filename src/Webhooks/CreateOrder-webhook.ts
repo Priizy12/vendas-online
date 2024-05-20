@@ -47,8 +47,8 @@ export class WebhookController {
           adressId: Number(session.metadata.adressId),
         };
 
-        if (!data.userId || !data.cart_Id || !data.adressId)
-          throw new NotFoundException('Dados nao econtrados');
+        // if (!data.userId || !data.cart_Id || !data.adressId)
+        //   throw new NotFoundException('Dados nao econtrados');
 
         await this.prisma.order.create({
           data,
