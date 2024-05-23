@@ -53,8 +53,10 @@ export class ProductService {
               produtoId: true,
             },
           },
-        },
+        }
       });
+
+
       return Product;
     } catch (error) {
       throw new BadRequestException(

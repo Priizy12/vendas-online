@@ -6,6 +6,7 @@ import {
 import { PrismaClient } from '@prisma/client';
 import { CreateCategoryDTO } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { ProductCategoryDto } from './dto/update-product-category.dto';
 
 @Injectable()
 export class CategoryProductService {
@@ -35,6 +36,7 @@ export class CategoryProductService {
               descricao: true,
               preco: true,
               estoque: true,
+              oferta: true,
               imagem: {
                 select: {
                   produtoId: true,
