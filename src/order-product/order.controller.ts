@@ -38,8 +38,8 @@ export class OrderController {
 
   @Roles(Role.cliente)
   @Get('User')
-  async getOrderUser(@User() userId: number) {
-    return this.orderService.getOrderUser(userId);
+  async getOrderUser(@User() userId: number, Delivered: boolean) {
+    return this.orderService.getOrderUser(userId, Delivered);
   }
 
   @Roles(Role.Admin)
