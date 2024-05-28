@@ -148,11 +148,12 @@ export class OrderService {
     }
   }
 
-  async getOrderUser(userId: number) {
+  async getOrderUser(userId: number,  Delivered: boolean){
     try {
       const user = await this.prisma.order.findFirst({
         where: {
           userId: Number(userId),
+          Delivered: false
         },
       });
 
